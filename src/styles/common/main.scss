@@ -1,0 +1,195 @@
+// Установим шрифт
+@font-face {
+  font-family: "Oswald";
+  src: url(../fonts/Oswald-ExtraLight.ttf) format("truetype");
+  font-weight: 200
+}
+@font-face {
+  font-family: "Oswald";
+  src: url(../fonts/Oswald-Light.ttf) format("truetype");
+  font-weight: 300
+}
+@font-face {
+  font-family: "Oswald";
+  src: url(../fonts/Oswald-Regular.ttf) format("truetype");
+  font-weight: 400
+}
+@font-face {
+  font-family: "Oswald";
+  src: url(../fonts/Oswald-Medium.ttf) format("truetype");
+  font-weight: 500
+}
+@font-face {
+  font-family: "Oswald";
+  src: url(../fonts/Oswald-SemiBold.ttf) format("truetype");
+  font-weight: 600
+}
+@font-face {
+  font-family: "Oswald";
+  src: url(../fonts/Oswald-Bold.ttf) format("truetype");
+  font-weight: 700
+}
+
+// Установим шрифт по умолчанию
+body {
+  font-size: 16px;
+  font-family: "Oswald";
+  font-weight: 400;
+}
+
+// Стилизуем страницу
+#TAJ-history {
+  width: 100%;
+  height: 100%;
+  background-color: #333;
+}
+
+.full-screen {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+
+  &.d-flex.f-center {
+    justify-content: center;
+  }
+}
+
+.d-flex {
+  display: flex;
+  flex-direction: column;
+  &.f-center {
+    align-items: center;
+  }
+  &.f-col {
+    flex-direction: column;
+  }
+}
+
+
+.skip {
+  height: 25px;
+  padding: 10px 0;
+
+  background-color: #333;
+
+  text-align: center;
+
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+
+  p {
+    margin: 0;
+    padding: 0;
+
+    color: #ccc;
+    letter-spacing: 0.05rem;
+    word-spacing: 0.5rem;
+    line-height: 1.5;
+  }
+}
+
+.first-screen,
+.second-screen,
+.third-screen {
+  width: 400px;
+}
+
+.popup {
+  padding: 10px 25px 25px 25px;
+
+  border: 1px solid #cecece;
+  border-radius: .75rem;
+  box-shadow: 0 0 25px 0 rgba(33, 33, 33, .1);
+
+  background-color: #fafafa;
+
+  input[type=button] {
+    width: 200px;
+    padding: 5px 0;
+
+    border: none;
+    border-radius: 20px;
+    outline: none;
+
+    color: black;
+
+    background-color: white;
+    box-shadow: 0 0 15px 0 rgba(33, 33, 33, .1) ;
+
+    cursor: pointer;
+  }
+}
+
+.first-screen {
+  .pick-hero {
+    .mouses {
+      width: 100%;
+      margin-bottom: 25px;
+
+      display: flex;
+      flex-direction: row;
+      justify-content: space-around;
+      align-items: center;
+
+      .mouse {
+        border-radius: .5rem;
+        overflow: hidden;
+
+        &.picked {
+          box-shadow: 0 0 15px 0 rgba(33, 33, 33, .1);
+        }
+      }
+
+      img {
+        width: 100px;
+        height: auto;
+
+        cursor: pointer;
+      }
+    }
+  }
+}
+
+.second-screen {
+  input[type=text] {
+    padding: 5px 15px;
+    margin: 0 0 20px 0;
+
+    border: none;
+    border-bottom: 1px solid #333;
+    outline: none;
+
+    &:invalid {
+      opacity: .5;
+    }
+  }
+}
+
+.third-screen {
+  table {
+    width: 100%;
+
+    th {
+      font-size: 1.15rem;
+      text-align: left;
+
+      border-bottom: 1px solid #333;
+    }
+
+    th, td {
+      padding: 4px 8px;
+    }
+  }
+
+  input[type=button] {
+    margin-top: 20px;
+  }
+}
+
+.hide {
+  display: none;
+}
