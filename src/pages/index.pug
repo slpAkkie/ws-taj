@@ -3,11 +3,12 @@ html(lang="ru")
   head
     meta(charset="UTF-8")
     meta(name="viewport", content="width=device-width, initial-scale=1.0")
-    link(rel="stylesheet", href="style.min.css")
+    link(rel="stylesheet", href="css/style.min.css")
     title Tom And Jerry
   body
     //- Начальный экран с видеороликом
-    video#TAJ-history(src="#")
+      После завершения поставть атрибут autoplay
+    video#TAJ-history.full-screen(src="media/TAJ-history.mp4")
     .skip
       p Нажмите "пробел", чтобы пропустить ролик
 
@@ -15,40 +16,42 @@ html(lang="ru")
     canvas#TAJ-game
 
     //- Первый экран с выводом инструкции и выбором персонажа
-    .first-screen
-      .instruction
-        p Первый параграф инструкции
-        p Второй параграф инструкции
-        p Третий параграф инструкции
-        p Четвертый параграф инструкции
-        p Пятый параграф инструкции
-      .pick-hero
-        .mouses
-          .mouse
-            img(src="#", alt="Jerry")
-          .mouse
-            img(src="#", alt="Taffy")
-        input#js-pick(type="button", value="Выбрать персонажа")
+    .full-screen.d-flex.f-center.hide
+      .first-screen.popup
+        .instruction
+          h2 Том и Джерри
+          p Добро пожаловать в игру "Том и Джерри"! Цель данной игры - съесть как можно больше сыра, стараясь уворачиваться от врагов - котов
+          p Изначально у вас 100 HP. За каждый съеденный кусочек сыра дается 10 HP. У игрока не может быть больше 100 HP. HP уменьшается каждую секунду игрового времени на одну единицу
+          p За контакт с котом отнимается 20 HP и 30 HP за каждую полную секунду контакта
+        .pick-hero.d-flex.f-center.f-col
+          .mouses
+            .mouse
+              img(src="img/Jerry-player.jpg", alt="Jerry")
+            .mouse
+              img(src="img/Tuffy-player.png", alt="Tuffy")
+          input#js-pick(type="button", value="Выбрать персонажа")
 
     //- Второй экран с вводом никнейма
-    .second-screen
-      h3 Введите свой никнейм
-      input(type="text", name="nickname")
-      input#js-start(type="button", value="Начать игру")
+    .full-screen.d-flex.f-center.hide
+      .second-screen.d-flex.f-col.f-center.popup
+        h2 Введите свой никнейм
+        input(type="text", name="nickname" placeholder="Ваш Никнейм" required)
+        input#js-start(type="button", value="Начать игру")
 
     //- Третий экран с выводом результатов
-    .third-screen
-      h3 Таблица счета
-      table
-        tr
-          th Никнейм
-          th Счет
-        tr
-          td Игрок номер 1
-          td 1000
-        tr
-          td Игрок номер 2
-          td 800
+    .full-screen.d-flex.f-center.hide
+      .third-screen.d-flex.f-col.f-center.popup
+        h2 Таблица счета
+        table
+          tr
+            th Никнейм
+            th Счет
+          tr
+            td Игрок номер 1
+            td 1000
+          tr
+            td Игрок номер 2
+            td 800
+        input#js-restart(type="button", value="Начать заново")
 
-    script(src="main.min.js")
-    scrip(async src="http://localhost:3000/browser-sync/browser-sync-client.js?v=2.26.13")
+    script(src="js/main.js")
