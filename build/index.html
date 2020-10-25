@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.min.css">
+    <title>Tom And Jerry</title>
+  </head>
+  <body>
+    <video id="TAJ-history" src="#"></video>
+    <div class="skip">
+      <p>Нажмите "пробел", чтобы пропустить ролик</p>
+    </div>
+    <canvas id="TAJ-game"></canvas>
+    <div class="first-screen">
+      <div class="instruction">
+        <p>Первый параграф инструкции</p>
+        <p>Второй параграф инструкции</p>
+        <p>Третий параграф инструкции</p>
+        <p>Четвертый параграф инструкции</p>
+        <p>Пятый параграф инструкции</p>
+      </div>
+      <div class="pick-hero">
+        <div class="mouses">
+          <div class="mouse"><img src="#" alt="Jerry"></div>
+          <div class="mouse"><img src="#" alt="Taffy"></div>
+        </div>
+        <input id="js-pick" type="button" value="Выбрать персонажа">
+      </div>
+    </div>
+    <div class="second-screen">
+      <h3>Введите свой никнейм</h3>
+      <input type="text" name="nickname">
+      <input id="js-start" type="button" value="Начать игру">
+    </div>
+    <div class="third-screen">
+      <h3>Таблица счета</h3>
+      <table>
+        <tr>
+          <th>Никнейм</th>
+          <th>Счет</th>
+        </tr>
+        <tr>
+          <td>Игрок номер 1</td>
+          <td>1000</td>
+        </tr>
+        <tr>
+          <td>Игрок номер 2</td>
+          <td>800</td>
+        </tr>
+      </table>
+    </div>
+    <script src="main.min.js"></script>
+    <scrip async src="http://localhost:3000/browser-sync/browser-sync-client.js?v=2.26.13"></scrip>
+  </body>
+</html>

@@ -1,0 +1,54 @@
+doctype html
+html(lang="ru")
+  head
+    meta(charset="UTF-8")
+    meta(name="viewport", content="width=device-width, initial-scale=1.0")
+    link(rel="stylesheet", href="style.min.css")
+    title Tom And Jerry
+  body
+    //- Начальный экран с видеороликом
+    video#TAJ-history(src="#")
+    .skip
+      p Нажмите "пробел", чтобы пропустить ролик
+
+    //- Канвас игры
+    canvas#TAJ-game
+
+    //- Первый экран с выводом инструкции и выбором персонажа
+    .first-screen
+      .instruction
+        p Первый параграф инструкции
+        p Второй параграф инструкции
+        p Третий параграф инструкции
+        p Четвертый параграф инструкции
+        p Пятый параграф инструкции
+      .pick-hero
+        .mouses
+          .mouse
+            img(src="#", alt="Jerry")
+          .mouse
+            img(src="#", alt="Taffy")
+        input#js-pick(type="button", value="Выбрать персонажа")
+
+    //- Второй экран с вводом никнейма
+    .second-screen
+      h3 Введите свой никнейм
+      input(type="text", name="nickname")
+      input#js-start(type="button", value="Начать игру")
+
+    //- Третий экран с выводом результатов
+    .third-screen
+      h3 Таблица счета
+      table
+        tr
+          th Никнейм
+          th Счет
+        tr
+          td Игрок номер 1
+          td 1000
+        tr
+          td Игрок номер 2
+          td 800
+
+    script(src="main.min.js")
+    scrip(async src="http://localhost:3000/browser-sync/browser-sync-client.js?v=2.26.13")
