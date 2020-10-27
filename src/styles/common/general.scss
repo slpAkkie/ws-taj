@@ -1,0 +1,40 @@
+// Установим шрифт по умолчанию
+body {
+  font-size: 16px;
+  font-family: "Oswald";
+  font-weight: 400;
+}
+
+// Стили для полноэкранных блоков
+.full-screen {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+
+  // Поведение для центрирования в полноэкранных блоках
+  &.d-flex.f-center {
+    justify-content: center;
+  }
+}
+
+// flex отображение
+.d-flex {
+  display: flex;
+
+  // Правило центрирования flex блоков
+  &.f-center {
+    align-items: center;
+  }
+
+  // Вертикальное направление
+  &.f-col {
+    flex-direction: column;
+  }
+}
+
+// Сокрытие блоков
+.hide {
+  display: none;
+}
