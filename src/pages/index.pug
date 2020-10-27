@@ -6,41 +6,65 @@ html(lang="ru")
     link(rel="stylesheet", href="css/style.min.css")
     title Tom And Jerry
   body
-    //- Начальный экран с видеороликом
-      После завершения поставть атрибут autoplay
-    video#TAJ-history.full-screen(src="media/TAJ-history.mp4")
-    .skip
-      p Нажмите "пробел", чтобы пропустить ролик
+    #pre-history
+      // Начальный экран с видеороликом
+      video#TAJ-history.full-screen(src="media/TAJ-history.mp4" autoplay muted)
+      .skip
+        p Нажмите "пробел", чтобы пропустить ролик
 
-    //- Канвас игры
-    canvas#TAJ-game
+    // Игра
+    .game-zone.hide
+      // Оверлей с игровой информацией
+      .game-UI.full-screen
+        .d-flex.f-col.absolute.left
+          .timer
+            span Время: 
+            span.data 00:00
+          .hp
+            span HP: 
+            span.data 100
+          .eaten-cheese
+            img(src="img/Cheese.png", width="40", heigth="40")
+            span.data 0
 
-    //- Первый экран с выводом инструкции и выбором персонажа
-    .full-screen.d-flex.f-center.hide
-      .first-screen.popup
+        .d-flex.f-col.absolute.right
+          .player-name
+            span Никнейм: 
+            span.data Akkie
+          .mute-status
+            span.data Выключить звук - SHIFT
+
+      // Канвас игры
+      canvas#TAJ-game
+
+    // Первый экран с выводом инструкции и выбором персонажа
+    .first-screen.full-screen.d-flex.f-center.hide
+      .popup
+        // Инструкция по игре
         .instruction
           h2 Том и Джерри
           p Добро пожаловать в игру "Том и Джерри"! Цель данной игры - съесть как можно больше сыра, стараясь уворачиваться от врагов - котов
           p Изначально у вас 100 HP. За каждый съеденный кусочек сыра дается 10 HP. У игрока не может быть больше 100 HP. HP уменьшается каждую секунду игрового времени на одну единицу
           p За контакт с котом отнимается 20 HP и 30 HP за каждую полную секунду контакта
-        .pick-hero.d-flex.f-center.f-col
+        // Выбор персонажа
+        .pick-character.d-flex.f-center.f-col
           .mouses
             .mouse
-              img(src="img/Jerry-player.jpg", alt="Jerry")
+              img(src="img/Jerry.jpg", alt="Jerry" width="100px" data-character="Jerry")
             .mouse
-              img(src="img/Tuffy-player.png", alt="Tuffy")
-          input#js-pick(type="button", value="Выбрать персонажа")
+              img(src="img/Tuffy.png", alt="Tuffy" width="100px" data-character="Tuffy")
+          input#js-pick(type="button", value="Выбрать персонажа" disabled)
 
-    //- Второй экран с вводом никнейма
-    .full-screen.d-flex.f-center.hide
-      .second-screen.d-flex.f-col.f-center.popup
+    // Второй экран с вводом никнейма
+    .second-screen.full-screen.d-flex.f-center.hide
+      .d-flex.f-col.f-center.popup
         h2 Введите свой никнейм
-        input(type="text", name="nickname" placeholder="Ваш Никнейм" required)
-        input#js-start(type="button", value="Начать игру")
+        input#js-nickname(type="text", name="nickname" placeholder="Ваш Никнейм" required)
+        input#js-start(type="button", value="Начать игру" disabled)
 
-    //- Третий экран с выводом результатов
-    .full-screen.d-flex.f-center.hide
-      .third-screen.d-flex.f-col.f-center.popup
+    // Третий экран с выводом результатов
+    .third-screen.full-screen.d-flex.f-center.hide
+      .d-flex.f-col.f-center.popup
         h2 Таблица счета
         table
           tr
