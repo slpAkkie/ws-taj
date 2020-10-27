@@ -7,37 +7,61 @@
     <title>Tom And Jerry</title>
   </head>
   <body>
-    <video class="full-screen" id="TAJ-history" src="media/TAJ-history.mp4"></video>
-    <div class="skip">
-      <p>Нажмите "пробел", чтобы пропустить ролик</p>
+    <div id="pre-history">
+      <!-- Начальный экран с видеороликом-->
+      <video class="full-screen" id="TAJ-history" src="media/TAJ-history.mp4" autoplay muted></video>
+      <div class="skip">
+        <p>Нажмите "пробел", чтобы пропустить ролик</p>
+      </div>
     </div>
-    <canvas id="TAJ-game"></canvas>
-    <div class="full-screen d-flex f-center hide">
-      <div class="first-screen popup">
+    <!-- Игра-->
+    <div class="game-zone hide">
+      <!-- Оверлей с игровой информацией-->
+      <div class="game-UI full-screen">
+        <div class="d-flex f-col absolute left">
+          <div class="timer"><span>Время: </span><span class="data">00:00</span></div>
+          <div class="hp"><span>HP: </span><span class="data">100</span></div>
+          <div class="eaten-cheese"><img src="img/Cheese.png" width="40" heigth="40"><span class="data">0</span></div>
+        </div>
+        <div class="d-flex f-col absolute right">
+          <div class="player-name"><span>Никнейм: </span><span class="data">Akkie</span></div>
+          <div class="mute-status"><span class="data">Выключить звук - SHIFT</span></div>
+        </div>
+      </div>
+      <!-- Канвас игры-->
+      <canvas id="TAJ-game"></canvas>
+    </div>
+    <!-- Первый экран с выводом инструкции и выбором персонажа-->
+    <div class="first-screen full-screen d-flex f-center hide">
+      <div class="popup">
+        <!-- Инструкция по игре-->
         <div class="instruction">
           <h2>Том и Джерри</h2>
           <p>Добро пожаловать в игру "Том и Джерри"! Цель данной игры - съесть как можно больше сыра, стараясь уворачиваться от врагов - котов</p>
           <p>Изначально у вас 100 HP. За каждый съеденный кусочек сыра дается 10 HP. У игрока не может быть больше 100 HP. HP уменьшается каждую секунду игрового времени на одну единицу</p>
           <p>За контакт с котом отнимается 20 HP и 30 HP за каждую полную секунду контакта</p>
         </div>
-        <div class="pick-hero d-flex f-center f-col">
+        <!-- Выбор персонажа-->
+        <div class="pick-character d-flex f-center f-col">
           <div class="mouses">
-            <div class="mouse"><img src="img/Jerry-player.jpg" alt="Jerry"></div>
-            <div class="mouse"><img src="img/Tuffy-player.png" alt="Tuffy"></div>
+            <div class="mouse"><img src="img/Jerry.jpg" alt="Jerry" width="100px" data-character="Jerry"></div>
+            <div class="mouse"><img src="img/Tuffy.png" alt="Tuffy" width="100px" data-character="Tuffy"></div>
           </div>
-          <input id="js-pick" type="button" value="Выбрать персонажа">
+          <input id="js-pick" type="button" value="Выбрать персонажа" disabled>
         </div>
       </div>
     </div>
-    <div class="full-screen d-flex f-center hide">
-      <div class="second-screen d-flex f-col f-center popup">
+    <!-- Второй экран с вводом никнейма-->
+    <div class="second-screen full-screen d-flex f-center hide">
+      <div class="d-flex f-col f-center popup">
         <h2>Введите свой никнейм</h2>
-        <input type="text" name="nickname" placeholder="Ваш Никнейм" required>
-        <input id="js-start" type="button" value="Начать игру">
+        <input id="js-nickname" type="text" name="nickname" placeholder="Ваш Никнейм" required>
+        <input id="js-start" type="button" value="Начать игру" disabled>
       </div>
     </div>
-    <div class="full-screen d-flex f-center hide">
-      <div class="third-screen d-flex f-col f-center popup">
+    <!-- Третий экран с выводом результатов-->
+    <div class="third-screen full-screen d-flex f-center hide">
+      <div class="d-flex f-col f-center popup">
         <h2>Таблица счета</h2>
         <table>
           <tr>
