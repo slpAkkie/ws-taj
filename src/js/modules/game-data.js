@@ -1,15 +1,30 @@
 const resourcePath = {
   'Character': {
     'Jerry': {
-      'stay': 'img/sprites/jerry-stay.png',
-      'walk': 'img/sprites/jerry-walk.png',
+      'stay': {
+        'path': 'img/sprites/jerry-stay.png',
+        'frames': '1',
+      },
+      'walk': {
+        'path': 'img/sprites/jerry-walk.png',
+        'frames': '8',
+      }
     },
     'Tuffy': {
-      'stay': 'img/sprites/tuffy-stay.png',
-      'walk': 'img/sprites/tuffy-walk.png',
+      'stay': {
+        'path': 'img/sprites/tuffy-stay.png',
+        'frames': '1',
+      },
+      'walk': {
+        'path': 'img/sprites/tuffy-walk.png',
+        'frames': '3',
+      }
     },
   },
-  'Enemy': 'img/sprites/tom-walk.png',
+  'Enemy': {
+    'path': 'img/sprites/tom-walk.png',
+    'frames': '15',
+  },
   'Hill': 'img/Chair.png',
   'Cheese': 'img/Cheese.png',
   'BG': 'img/BG.jpg',
@@ -21,12 +36,12 @@ let playerInfo = {
 };
 
 let gameResources = {
-  'characterSprite': {
-    'stay': null,
-    'walk': null,
+  'CharacterSprite': {
+    'stay': {},
+    'walk': {},
   },
-  'enemy': null,
-  'hill': null,
-  'cheese': null,
-  'bg': null,
+  'Enemy': {},
+  'Hill': {},
+  'Cheese': {},
+  'BG': {},
 };
