@@ -7,9 +7,7 @@
     let frames = v.frames || 1;
 
     try {
-      gameResources[ k ].img = new Image();
-      gameResources[ k ].img.src = path;
-      gameResources[ k ].frames = frames;
+      gameResources[ k ] = new Sprite( path, frames );
       console.log( `Загрузка ${k} (${path}) завершена` );
     }
     catch ( e ) {
@@ -22,13 +20,23 @@
 async function loadCharacter() {
   if ( playerInfo.character === null ) throw Error( 'Персонаж игрока не был задан' );
 
-  gameResources.CharacterSprite.stay.img = new Image();
-  gameResources.CharacterSprite.stay.img.src =
-    resourcePath.Character[ playerInfo.character ].stay.path;
-  gameResources.CharacterSprite.stay.frames = resourcePath.Character[ playerInfo.character ].stay.frames;
+  gameResources.CharacterSprite.stay = new Sprite(
+    resourcePath.Character[ playerInfo.character ].stay.path,
+    resourcePath.Character[ playerInfo.character ].stay.frames
+  )
 
-  gameResources.CharacterSprite.walk.img = new Image();
-  gameResources.CharacterSprite.walk.img.src =
-    resourcePath.Character[ playerInfo.character ].walk.path;
-  gameResources.CharacterSprite.walk.frames = resourcePath.Character[ playerInfo.character ].walk.frames;
+  gameResources.CharacterSprite.walk = new Sprite(
+    resourcePath.Character[ playerInfo.character ].walk.path,
+    resourcePath.Character[ playerInfo.character ].walk.frames
+  )
+
+  // gameResources.CharacterSprite.stay.img = new Image();
+  // gameResources.CharacterSprite.stay.img.src =
+  //   resourcePath.Character[ playerInfo.character ].stay.path;
+  // gameResources.CharacterSprite.stay.frames = resourcePath.Character[ playerInfo.character ].stay.frames;
+
+  // gameResources.CharacterSprite.walk.img = new Image();
+  // gameResources.CharacterSprite.walk.img.src =
+  //   resourcePath.Character[ playerInfo.character ].walk.path;
+  // gameResources.CharacterSprite.walk.frames = resourcePath.Character[ playerInfo.character ].walk.frames;
 }

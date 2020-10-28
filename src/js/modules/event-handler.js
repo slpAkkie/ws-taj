@@ -1,4 +1,4 @@
-$( document ).ready( () => {
+$( () => {
 
   // Сделаем звук ролика потише
   $( 'video#TAJ-history' ).get( 0 ).volume = 0.5;

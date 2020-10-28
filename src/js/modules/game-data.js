@@ -37,11 +37,11 @@ let playerInfo = {
 
 let gameResources = {
   'CharacterSprite': {
-    'stay': {},
-    'walk': {},
+    'stay': null,
+    'walk': null,
   },
-  'Enemy': {},
-  'Hill': {},
-  'Cheese': {},
-  'BG': {},
+  'Enemy': null,
+  'Hill': null,
+  'Cheese': null,
+  'BG': null,
 };

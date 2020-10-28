@@ -1,29 +1,31 @@
 class Game {
-  ui = {};
-  canvas;
-  ctx;
 
   constructor() {
     this.startTime = Date.now();
 
-    // Получаем элементы UI
-    this.ui.timer = $( '.game-UI .timer span.data' ).get( 0 );
-    this.ui.hp = $( '.game-UI .hp span.data' ).get( 0 );
-    this.ui.eatenCheese = $( '.game-UI .eaten-cheese span.data' ).get( 0 );
-    this.ui.nickname = $( '.game-UI .player-name span.data' ).get( 0 );
-    this.ui.muteStatus = $( '.game-UI .mute-status span.data' ).get( 0 );
+    this.GetUI();
 
     // Устанавливаем имя пользователя
     this.ui.nickname.innerText = playerInfo.nickname;
 
     // Получаем canvas и 2d контекст
     this.canvas = $( '#TAJ-game' ).get( 0 );
-    this.ctx = this.canvas.getContext( '2d' );
+    this.ctx = this.canvas.getContext( '2d' )
 
     // Запускаем обновление фреймов
     setInterval( ( () => {
       this.update();
     } ).bind( this ), 1000 / 60 );
+  }
+
+  GetUI() {
+    // Получаем элементы UI
+    this.ui = {};
+    this.ui.timer = $( '.game-UI .timer span.data' ).get( 0 );
+    this.ui.hp = $( '.game-UI .hp span.data' ).get( 0 );
+    this.ui.eatenCheese = $( '.game-UI .eaten-cheese span.data' ).get( 0 );
+    this.ui.nickname = $( '.game-UI .player-name span.data' ).get( 0 );
+    this.ui.muteStatus = $( '.game-UI .mute-status span.data' ).get( 0 );
   }
 
   // Обновляет таймер (Сколько времени прошло с начала игры)
@@ -38,6 +40,7 @@ class Game {
       ( seconds.length < 2 ? '0' + seconds : seconds )
   }
 
+  // Обновление кадров игры
   update() {
     // Очищаем canvas для нового фрейма
     this.ctx.clearRect( 0, 0, this.canvas.width, this.canvas.heigth );
