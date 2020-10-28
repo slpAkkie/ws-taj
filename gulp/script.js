@@ -9,9 +9,9 @@ module.exports = function script() {
   return gulp.src( 'src/js/*.js' )
     .pipe( plumber() )
     .pipe( rigger() )
-    .pipe( sourcemaps.init() )
-    .pipe( babel() )
-    .pipe( uglify() )
-    .pipe( sourcemaps.write() )
+    // .pipe( sourcemaps.init() )
+    // .pipe( babel() )
+    // .pipe( uglify() )
+    // .pipe( sourcemaps.write() )
     .pipe( gulp.dest( 'build/js' ) )
 }
