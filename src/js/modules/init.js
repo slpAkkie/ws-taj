@@ -19,16 +19,16 @@
   } );
 } )();
 
-function loadCharacter() {
+async function loadCharacter() {
   if ( playerInfo.character === null ) throw Error( 'Персонаж игрока не был задан' );
 
-  gameResources.characterSprite.stay.img = new Image();
-  gameResources.characterSprite.stay.img.src =
+  gameResources.CharacterSprite.stay.img = new Image();
+  gameResources.CharacterSprite.stay.img.src =
     resourcePath.Character[ playerInfo.character ].stay.path;
-  gameResources.characterSprite.stay.frames = resourcePath.Character[ playerInfo.character ].stay.frames;
+  gameResources.CharacterSprite.stay.frames = resourcePath.Character[ playerInfo.character ].stay.frames;
 
-  gameResources.characterSprite.walk.img = new Image();
-  gameResources.characterSprite.walk.img.src =
+  gameResources.CharacterSprite.walk.img = new Image();
+  gameResources.CharacterSprite.walk.img.src =
     resourcePath.Character[ playerInfo.character ].walk.path;
-  gameResources.characterSprite.walk.frames = resourcePath.Character[ playerInfo.character ].walk.frames;
+  gameResources.CharacterSprite.walk.frames = resourcePath.Character[ playerInfo.character ].walk.frames;
 }
