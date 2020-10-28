@@ -1,9 +1,130 @@
+/*
+  =========================
+  Подключим сторонние стили
+*/
+
+// Подключаем normilize.css, чтобы сбросить стили
 @import '../../../node_modules/normalize.css/normalize';
 
+
+
+/*
+  =====================
+  Опишем основные стили
+*/
+
+// Подключаем свои шрифты
 @import './fonts';
-@import './general';
-@import './main';
-@import './first-screen';
-@import './second-screen';
-@import './third-screen';
+
+// Настройки шрифтов по умолчанию
+body {
+  font-size: 16px;
+  font-family: "Oswald";
+  font-weight: 400;
+}
+
+// Полноэкранный блок
+.full-screen {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+}
+
+// Полноэкранный контейнер с центрированным содержимым
+.container__full-screen {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+
+  &_center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+}
+
+.bottom {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+}
+
+// Спрятать блок
+.hide {
+  display: none;
+}
+
+
+// Окно поверх контента
+.popup {
+  width: 400px;
+
+  padding: 10px 25px 25px 25px;
+
+  border: 1px solid #cecece;
+  border-radius: .75rem;
+  box-shadow: 0 0 25px 0 rgba(33, 33, 33, .1);
+
+  background-color: #fafafa;
+
+  // Кнопки в popup окне
+  input[type=button] {
+    width: 200px;
+    padding: 5px 0;
+
+    border: none;
+    border-radius: 20px;
+    outline: none;
+
+    color: black;
+
+    background-color: white;
+    box-shadow: 0 0 15px 0 rgba(33, 33, 33, .1) ;
+
+    cursor: pointer;
+
+    transition: width .15s ease-in-out;
+
+    &:not([disabled]):hover {
+      width: 210px;
+    }
+
+    &[disabled] {
+      opacity: .25;
+
+      cursor: default;
+    }
+  }
+
+
+  input[type=text] {
+    height: 20px;
+
+    padding: 5px 15px;
+    margin: 0 0 20px 0;
+
+    border: none;
+    border-bottom: 1px solid #333;
+    border-radius: .25rem .25rem 0 0;
+    outline: none;
+
+    &:invalid {
+      opacity: .5;
+    }
+  }
+}
+
+/*
+  ==========================
+  Подключаем стили элементов
+*/
+
+@import './prehistory';
+@import './game-menu';
 @import './game-ui';
+@import './score-screen';

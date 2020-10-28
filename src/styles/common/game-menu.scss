@@ -1,0 +1,40 @@
+/*
+  ==============================
+  Опишем стили для игрового меню
+*/
+
+#game-menu {
+  #characters {
+    width: 100%;
+    margin-bottom: 25px;
+
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+  }
+
+  .character {
+    width: 100px;
+    height: 120px;
+
+    border-radius: .5rem;
+    overflow: hidden;
+
+    &:hover {
+      box-shadow: 0 0 15px 0 rgba(33, 33, 33, .1);
+    }
+
+    &.chosen {
+      box-shadow: 0 0 15px 0 rgba(33, 33, 33, .1);
+      transform: translateY(-5px);
+    }
+
+    img {
+      width: 100px;
+      height: auto;
+
+      cursor: pointer;
+    }
+  }
+}

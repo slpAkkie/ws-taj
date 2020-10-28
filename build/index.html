@@ -7,61 +7,56 @@
     <title>Tom And Jerry</title>
   </head>
   <body>
-    <div id="pre-history">
-      <!-- Начальный экран с видеороликом-->
-      <video class="full-screen" id="TAJ-history" src="media/TAJ-history.mp4" autoplay muted></video>
-      <div class="skip">
-        <p>Нажмите "пробел", чтобы пропустить ролик</p>
+    <!-- Видеоролик с предысторией героев-->
+    <div class="container__full-screen" id="prehistory">
+      <video class="full-screen" src="media/TAJ-history.mp4" autoplay muted></video>
+      <div class="skip bottom">
+        <p>Нажмите "Пробел", чтобы пропустить ролик</p>
       </div>
     </div>
     <!-- Игра-->
-    <div class="game-zone hide">
+    <div class="hide" id="game-zone">
       <!-- Оверлей с игровой информацией-->
-      <div class="game-UI full-screen">
-        <div class="d-flex f-col absolute left">
-          <div class="timer"><span>Время: </span><span class="data">00:00</span></div>
-          <div class="hp"><span>HP: </span><span class="data">100</span></div>
-          <div class="eaten-cheese"><img src="img/Cheese.png" width="40" heigth="40"><span class="data">0</span></div>
+      <div class="full-screen" id="UI">
+        <div id="UI-left">
+          <div id="timer"><span>Время: </span><span class="data">00:00</span></div>
+          <div id="hp"><span>HP: </span><span class="data">100</span></div>
+          <div id="eaten-cheese"><img src="img/Cheese.png" width="40" heigth="40"><span class="data">0</span></div>
         </div>
-        <div class="d-flex f-col absolute right">
-          <div class="player-name"><span>Никнейм: </span><span class="data">Akkie</span></div>
-          <div class="mute-status"><span class="data">Выключить звук - SHIFT</span></div>
+        <div id="UI-right">
+          <div id="player-name"><span>Никнейм: </span><span class="data">Akkie</span></div>
+          <div id="mute-status"><span class="data">Выключить звук - SHIFT</span></div>
         </div>
       </div>
       <!-- Канвас игры-->
-      <canvas id="TAJ-game"></canvas>
+      <canvas></canvas>
     </div>
     <!-- Первый экран с выводом инструкции и выбором персонажа-->
-    <div class="first-screen full-screen d-flex f-center hide">
+    <div class="container__full-screen_center hide" id="game-menu">
       <div class="popup">
         <!-- Инструкция по игре-->
-        <div class="instruction">
+        <div id="instruction">
           <h2>Том и Джерри</h2>
           <p>Добро пожаловать в игру "Том и Джерри"! Цель данной игры - съесть как можно больше сыра, стараясь уворачиваться от врагов - котов</p>
           <p>Изначально у вас 100 HP. За каждый съеденный кусочек сыра дается 10 HP. У игрока не может быть больше 100 HP. HP уменьшается каждую секунду игрового времени на одну единицу</p>
           <p>За контакт с котом отнимается 20 HP и 30 HP за каждую полную секунду контакта</p>
         </div>
         <!-- Выбор персонажа-->
-        <div class="pick-character d-flex f-center f-col">
-          <div class="mouses">
-            <div class="mouse"><img src="img/Jerry.jpg" alt="Jerry" width="100px" data-character="Jerry"></div>
-            <div class="mouse"><img src="img/Tuffy.png" alt="Tuffy" width="100px" data-character="Tuffy"></div>
-          </div>
-          <input id="js-pick" type="button" value="Выбрать персонажа" disabled>
+        <div id="characters">
+          <div class="character" data-character="Jerry"><img src="img/Jerry.jpg" alt="Jerry" width="100px"></div>
+          <div class="character" data-character="Tuffy"><img src="img/Tuffy.png" alt="Tuffy" width="100px"></div>
         </div>
-      </div>
-    </div>
-    <!-- Второй экран с вводом никнейма-->
-    <div class="second-screen full-screen d-flex f-center hide">
-      <div class="d-flex f-col f-center popup">
-        <h2>Введите свой никнейм</h2>
-        <input id="js-nickname" type="text" name="nickname" placeholder="Ваш Никнейм" required>
+        <!-- Ввод никнейма-->
+        <div id="nickname">
+          <h2>Введите свой никнейм</h2>
+          <input type="text" name="nickname" placeholder="Ваш Никнейм" required>
+        </div>
         <input id="js-start" type="button" value="Начать игру" disabled>
       </div>
     </div>
-    <!-- Третий экран с выводом результатов-->
-    <div class="third-screen full-screen d-flex f-center hide">
-      <div class="d-flex f-col f-center popup">
+    <!-- Экран с выводом результатов-->
+    <div class="score-screen container__full-screen_center hide">
+      <div class="popup">
         <h2>Таблица счета</h2>
         <table>
           <tr>
