@@ -3,5 +3,5 @@ window.state = {
   nickname: null,
   character: null,
   ui: {},
-  baseLine: 300,
+  baseLine: null,
 }

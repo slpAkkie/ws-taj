@@ -49,7 +49,7 @@ window.state = {
   nickname: null,
   character: null,
   ui: {},
-  baseLine: 300,
+  baseLine: null,
 }
 class Game {
 
@@ -65,8 +65,11 @@ class Game {
 
       if ( e.code === 'KeyA' || e.code === 'KeyD' )
         this.player.actionToggle();
-      else if ( e.code === 'Escape' && e.type === 'keydown' )
+
+      if ( e.code === 'Escape' && e.type === 'keydown' ) {
         this.gameStatus = this.gameStatus === 'play' ? 'pause' : 'play';
+        $( '#pause-screen' ).toggleClass( 'hide' );
+      }
     } )
   }
 
@@ -159,6 +162,8 @@ function startGame() {
   state.canvas = $( '#game-zone canvas' ).get( 0 );
   state.canvas.width = document.body.clientWidth;
   state.canvas.height = document.body.clientHeight;
+
+  state.baseLine = state.canvas.height - 200;
 
   state.ctx = state.canvas.getContext( '2d' );
   state.ctx.imageSmoothingQuality = 'high';

@@ -59,7 +59,7 @@ html(lang="ru")
         input#js-start(type="button", value="Начать игру" disabled)
 
     // Экран с выводом результатов
-    .score-screen.container__full-screen.container__full-screen_center.hide
+    #score-screen.container__full-screen.container__full-screen_center.hide
       .popup
         h2 Таблица счета
         table
@@ -73,5 +73,9 @@ html(lang="ru")
             td Игрок номер 2
             td 800
         input#js-restart(type="button", value="Начать заново")
+
+    #pause-screen.container__full-screen.container__full-screen_center.hide
+      h1 Пауза
+      p Для возобновления игры нажмите Esc
 
     script(src="js/main.js")

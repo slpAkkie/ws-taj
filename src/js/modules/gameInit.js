@@ -12,6 +12,8 @@ function startGame() {
   state.canvas.width = document.body.clientWidth;
   state.canvas.height = document.body.clientHeight;
 
+  state.baseLine = state.canvas.height - 200;
+
   state.ctx = state.canvas.getContext( '2d' );
   state.ctx.imageSmoothingQuality = 'high';
   state.ctx.imageSmoothingEnable = false;

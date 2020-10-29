@@ -12,8 +12,11 @@ class Game {
 
       if ( e.code === 'KeyA' || e.code === 'KeyD' )
         this.player.actionToggle();
-      else if ( e.code === 'Escape' && e.type === 'keydown' )
+
+      if ( e.code === 'Escape' && e.type === 'keydown' ) {
         this.gameStatus = this.gameStatus === 'play' ? 'pause' : 'play';
+        $( '#pause-screen' ).toggleClass( 'hide' );
+      }
     } )
   }
 
