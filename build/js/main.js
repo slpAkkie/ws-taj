@@ -55,9 +55,19 @@ class Game {
 
   hp = 100;
   eatenCheese = 0;
+  gameStatus = 'play';
 
   constructor( character ) {
     this.player = new Player( character );
+
+    $( document ).on( 'keydown keyup', ( e ) => {
+      if ( e.originalEvent.repeat ) return;
+
+      if ( e.code === 'KeyA' || e.code === 'KeyD' )
+        this.player.actionToggle();
+      else if ( e.code === 'Escape' && e.type === 'keydown' )
+        this.gameStatus = this.gameStatus === 'play' ? 'pause' : 'play';
+    } )
   }
 
   update( dt ) {
@@ -119,12 +129,17 @@ class Sprite {
 }
 class Player {
   sprite = { walk: null, stay: null }
-  action = 'walk';
+  action = 'stay';
 
   constructor( character ) {
     this.sprite.walk = new Sprite( resourceData[ character.toLowerCase() + '-walk' ] );
-    this.sprite.walk.animationDuration = 1000;
+    this.sprite.walk.animationDuration = 800;
     this.sprite.stay = new Sprite( resourceData[ character.toLowerCase() + '-stay' ] );
+  }
+
+  actionToggle() {
+    if ( this.action === 'stay' ) this.action = 'walk';
+    else this.action = 'stay';
   }
 
   update( dt ) {
@@ -153,6 +168,7 @@ function startGame() {
 
 
   state.startTime = performance.now();
+  state.gameTime = 0;
   state.lastUpdate = null;
 
   requestAnimationFrame( update );
@@ -161,7 +177,7 @@ function startGame() {
 
 
 function update( dt ) {
-  if ( state.screen === 'game' && state.gameStatus === 'pause' ) {
+  if ( state.screen === 'game' && state.game.gameStatus === 'pause' ) {
     state.lastUpdate = performance.now();
     requestAnimationFrame( update );
 
@@ -179,7 +195,9 @@ function update( dt ) {
 }
 
 function updateTimer( dt ) {
-  let fullSeconds = Math.floor( ( dt - state.startTime ) / 1000 );
+  state.gameTime += dt - state.lastUpdate;
+
+  let fullSeconds = Math.floor( state.gameTime / 1000 );
   let minutes = String( Math.floor( fullSeconds / 60 ) );
   let seconds = String( fullSeconds % 60 );
 

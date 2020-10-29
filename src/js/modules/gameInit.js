@@ -20,6 +20,7 @@ function startGame() {
 
 
   state.startTime = performance.now();
+  state.gameTime = 0;
   state.lastUpdate = null;
 
   requestAnimationFrame( update );
@@ -28,7 +29,7 @@ function startGame() {
 
 
 function update( dt ) {
-  if ( state.screen === 'game' && state.gameStatus === 'pause' ) {
+  if ( state.screen === 'game' && state.game.gameStatus === 'pause' ) {
     state.lastUpdate = performance.now();
     requestAnimationFrame( update );
 
@@ -46,7 +47,9 @@ function update( dt ) {
 }
 
 function updateTimer( dt ) {
-  let fullSeconds = Math.floor( ( dt - state.startTime ) / 1000 );
+  state.gameTime += dt - state.lastUpdate;
+
+  let fullSeconds = Math.floor( state.gameTime / 1000 );
   let minutes = String( Math.floor( fullSeconds / 60 ) );
   let seconds = String( fullSeconds % 60 );
 
