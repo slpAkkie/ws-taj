@@ -4,6 +4,14 @@
 */
 
 #game-menu {
+  #instruction p {
+    margin-left: -5px;
+
+    opacity: 0;
+
+    transition: all .5s ease-in-out;
+  }
+
   #characters, #nickname {
     width: 100%;
     margin-bottom: 25px;

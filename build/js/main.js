@@ -9,11 +9,142 @@ window.state = {
   character: null,
   ui: {},
 }
-/** Настройка */
+window.resourceData = {
+  'jerry-stay': {
+    'path': '..\\img\\sprites\\jerry-stay.png',
+    'frames': 1,
+    'width': 28,
+    'height': 42,
+    'img': null,
+  },
+  'jerry-walk': {
+    'path': '..\\img\\sprites\\jerry-walk.png',
+    'frames': 8,
+    'width': 28,
+    'height': 42,
+    'img': null,
+  },
+  'tuffy-stay': {
+    'path': '..\\img\\sprites\\tuffy-stay.png',
+    'frames': 15,
+    'width': 28,
+    'height': 27,
+    'img': null,
+  },
+  'tuffy-walk': {
+    'path': '..\\img\\sprites\\tuffy-walk.png',
+    'frames': 1,
+    'width': 28,
+    'height': 27,
+    'img': null,
+  },
+  'tom-walk': {
+    'path': '..\\img\\sprites\\tom-walk.png',
+    'frames': 3,
+    'width': 32,
+    'height': 45,
+    'img': null,
+  },
+  'hill': {
+    'path': '..\\img\\Chair.png',
+    'img': null,
+  },
+  'cheese': {
+    'path': '..\\img\\Cheese.png',
+    'img': null,
+  },
+  'bg': {
+    'path': '..\\img\\BG.png',
+    'img': null,
+  },
+}
+class Game {
 
-// Делаем звук ролика тише
-$( '#prehistory video' ).get( 0 ).volume = 0.5;
-console.log( `Громкость плеера установленна на ${$( '#prehistory video' ).get( 0 ).volume}` );
+  constructor() {
+    this.b = 0;
+  }
+
+  update( dt ) {
+    let a = new Image();
+    a.src = resourceData[ 'jerry-walk' ].path;
+
+    state.ctx.drawImage(
+      a,
+      this.b * resourceData[ 'jerry-walk' ].width,
+      0,
+      resourceData[ 'jerry-walk' ].width,
+      resourceData[ 'jerry-walk' ].height,
+      200,
+      50,
+      resourceData[ 'jerry-walk' ].width,
+      resourceData[ 'jerry-walk' ].height
+    )
+
+    this.b++;
+    if ( this.b > resourceData[ 'jerry-walk' ].frames ) this.b = 1;
+  }
+
+}
+function startGame() {
+  console.log( 'Начало игры' );
+
+  state.ui.timer = $( '#timer span.data' ).get( 0 ) || null;
+  state.ui.hp = $( '#hp span.data' ).get( 0 ) || null;
+  state.ui.eatenCheese = $( '#eaten-cheese span.data' ).get( 0 ) || null;
+  state.ui.nickname = $( '#player-name span.data' ).get( 0 ) || null;
+
+  state.ui.nickname.innerText = state.nickname;
+
+  state.canvas = $( '#game-zone canvas' ).get( 0 );
+  state.canvas.width = document.body.clientWidth;
+  state.canvas.height = document.body.clientHeight;
+
+  state.ctx = state.canvas.getContext( '2d' );
+  state.ctx.imageSmoothingQuality = 'high';
+  state.ctx.imageSmoothingEnable = false;
+
+  state.game = new Game();
+
+
+  state.startTime = performance.now();
+  state.lastUpdate = null;
+
+  requestAnimationFrame( update );
+}
+
+
+
+function update( dt ) {
+  if ( state.screen === 'game' && state.gameStatus === 'pause' ) {
+    state.lastUpdate = performance.now();
+    requestAnimationFrame( update );
+
+    return;
+  }
+
+  updateTimer( dt );
+
+  state.ctx.fillStyle = '#000000';
+  state.ctx.fillRect( 0, 0, state.canvas.width, state.canvas.height );
+  state.game.update( dt );
+
+  state.lastUpdate = performance.now();
+  requestAnimationFrame( update );
+}
+
+function updateTimer( dt ) {
+  let fullSeconds = Math.floor( ( dt - state.startTime ) / 1000 );
+  let minutes = String( Math.floor( fullSeconds / 60 ) );
+  let seconds = String( fullSeconds % 60 );
+
+  state.ui.timer.innerText =
+    ( minutes.length === 1 ? ( '0' + minutes ) : minutes )
+    + ':' +
+    ( seconds.length === 1 ? ( '0' + seconds ) : seconds );
+}
+
+
+
 
 // =================================
 // Настройка на время написания игры
@@ -22,6 +153,11 @@ state.nickname = 'Akkie';
 state.character = 'Jerry'.toLowerCase();
 startGame();
 // ===================================
+/** Настройка */
+
+// Делаем звук ролика тише
+$( '#prehistory video' ).get( 0 ).volume = 0.5;
+console.log( `Громкость плеера установленна на ${$( '#prehistory video' ).get( 0 ).volume}` );
 
 
 
@@ -64,6 +200,16 @@ function goToGameMenu( { end, key, click } ) {
 
   $( '#prehistory' ).toggleClass( 'hide' );
   $( '#game-menu' ).toggleClass( 'hide' );
+
+  $( '#instruction p' ).each( ( k, v ) => {
+    setTimeout( () => {
+      $( v ).css( {
+        'opacity': '1',
+        'margin-left': '0',
+      } );
+    }, 100 * k );
+  } );
+
   state.screen = 'menu';
   screenChangeLog();
 }
@@ -105,59 +251,4 @@ function screenChangeLog() {
 function stateLog() {
   console.log( `[state] =>` );
   console.log( state );
-}
-
-
-
-function startGame() {
-  console.log( 'Начало игры' );
-
-  state.ui.timer = $( '#timer span.data' ).get( 0 ) || null;
-  state.ui.hp = $( '#hp span.data' ).get( 0 ) || null;
-  state.ui.eatenCheese = $( '#eaten-cheese span.data' ).get( 0 ) || null;
-  state.ui.nickname = $( '#nickname span.data' ).get( 0 ) || null;
-
-  state.canvas = $( '#game-zone canvas' ).get( 0 );
-  state.ctx = state.canvas.getContext( '2d' );
-
-
-  state.startTime = performance.now();
-  state.lastUpdate = null;
-
-  requestAnimationFrame( update );
-}
-
-
-
-function update( dt ) {
-  if ( state.screen === 'game' && state.gameStatus === 'pause' ) {
-    state.lastUpdate = performance.now();
-    requestAnimationFrame( update );
-
-    return;
-  }
-
-  updateTimer( dt );
-
-  state.ctx.fillStyle = '#000000';
-  state.ctx.fillRect( 0, 0, state.canvas.width, state.canvas.height );
-  gameUpdate( dt );
-
-  state.lastUpdate = performance.now();
-  requestAnimationFrame( update );
-}
-
-function updateTimer( dt ) {
-  let fullSeconds = Math.floor( ( dt - state.startTime ) / 1000 );
-  let minutes = String( Math.floor( fullSeconds / 60 ) );
-  let seconds = String( fullSeconds % 60 );
-
-  state.ui.timer.innerText =
-    ( minutes.length === 1 ? ( '0' + minutes ) : minutes )
-    + ':' +
-    ( seconds.length === 1 ? ( '0' + seconds ) : seconds );
-}
-
-function gameUpdate( dt ) {
-
 }
