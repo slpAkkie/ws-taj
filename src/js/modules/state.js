@@ -4,4 +4,9 @@ window.state = {
   character: null,
   ui: {},
   baseLine: null,
+  pressedKey: {
+    LEFT: false,
+    RIGHT: false,
+    UP: false,
+  },
 }
