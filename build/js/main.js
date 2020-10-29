@@ -120,9 +120,6 @@ function startGame() {
   state.canvas = $( '#game-zone canvas' ).get( 0 );
   state.ctx = state.canvas.getContext( '2d' );
 
-  state.canvas.width = Math.floor( $( document.body ).width() ) - 1;
-  state.canvas.height = Math.floor( $( document.body ).height() ) - 1;
-
 
   state.startTime = performance.now();
   state.lastUpdate = null;
