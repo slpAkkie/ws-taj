@@ -1,31 +1,31 @@
-.game-UI {
+#UI {
   margin: 25px;
 
   font-size: 1.5rem;
   color: white;
 
-  .absolute {
+  #UI-left, #UI-right {
     top: 0;
     position: absolute;
 
-    &.left {
-      left: 0;
-    }
-    &.right {
-      text-align: right;
-      right: 0;
-    }
+  }
+  & > * > * {
+    margin: 2px 0;
+  }
 
-    & > * {
-      margin: 2px 0;
-    }
+  #UI-left {
+    left: 0;
+  }
+  #UI-right {
+    text-align: right;
+    right: 0;
   }
 
   span.data {
     color: #a7fffb;
   }
 
-  .eaten-cheese {
+  #eaten-cheese {
     margin-top: 10px;
 
     font-size: 1.25em;

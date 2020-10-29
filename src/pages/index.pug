@@ -5,15 +5,15 @@ html(lang="ru")
     meta(name="viewport", content="width=device-width, initial-scale=1.0")
     link(rel="stylesheet", href="css/style.min.css")
     title Tom And Jerry
-  body
+  body.container__full-screen
     // Видеоролик с предысторией героев
-    #prehistory.container__full-screen
+    #prehistory.container__full-screen.hide
       video.full-screen(src="media/TAJ-history.mp4" autoplay muted)
       .skip.bottom
         p Нажмите "Пробел", чтобы пропустить ролик
 
     // Игра
-    #game-zone.hide
+    #game-zone
       // Оверлей с игровой информацией
       #UI.full-screen
         #UI-left
@@ -24,7 +24,7 @@ html(lang="ru")
             span HP: 
             span.data 100
           #eaten-cheese
-            img(src="img/Cheese.png", width="40", heigth="40")
+            img(src="img/Cheese.png", width="40", height="40")
             span.data 0
 
         #UI-right
@@ -38,7 +38,7 @@ html(lang="ru")
       canvas
 
     // Первый экран с выводом инструкции и выбором персонажа
-    #game-menu.container__full-screen_center.hide
+    #game-menu.container__full-screen.container__full-screen_center.hide
       .popup
         // Инструкция по игре
         #instruction
@@ -59,7 +59,7 @@ html(lang="ru")
         input#js-start(type="button", value="Начать игру" disabled)
 
     // Экран с выводом результатов
-    .score-screen.container__full-screen_center.hide
+    .score-screen.container__full-screen.container__full-screen_center.hide
       .popup
         h2 Таблица счета
         table

@@ -6,22 +6,22 @@
     <link rel="stylesheet" href="css/style.min.css">
     <title>Tom And Jerry</title>
   </head>
-  <body>
+  <body class="container__full-screen">
     <!-- Видеоролик с предысторией героев-->
-    <div class="container__full-screen" id="prehistory">
+    <div class="container__full-screen hide" id="prehistory">
       <video class="full-screen" src="media/TAJ-history.mp4" autoplay muted></video>
       <div class="skip bottom">
         <p>Нажмите "Пробел", чтобы пропустить ролик</p>
       </div>
     </div>
     <!-- Игра-->
-    <div class="hide" id="game-zone">
+    <div id="game-zone">
       <!-- Оверлей с игровой информацией-->
       <div class="full-screen" id="UI">
         <div id="UI-left">
           <div id="timer"><span>Время: </span><span class="data">00:00</span></div>
           <div id="hp"><span>HP: </span><span class="data">100</span></div>
-          <div id="eaten-cheese"><img src="img/Cheese.png" width="40" heigth="40"><span class="data">0</span></div>
+          <div id="eaten-cheese"><img src="img/Cheese.png" width="40" height="40"><span class="data">0</span></div>
         </div>
         <div id="UI-right">
           <div id="player-name"><span>Никнейм: </span><span class="data">Akkie</span></div>
@@ -32,7 +32,7 @@
       <canvas></canvas>
     </div>
     <!-- Первый экран с выводом инструкции и выбором персонажа-->
-    <div class="container__full-screen_center hide" id="game-menu">
+    <div class="container__full-screen container__full-screen_center hide" id="game-menu">
       <div class="popup">
         <!-- Инструкция по игре-->
         <div id="instruction">
@@ -55,7 +55,7 @@
       </div>
     </div>
     <!-- Экран с выводом результатов-->
-    <div class="score-screen container__full-screen_center hide">
+    <div class="score-screen container__full-screen container__full-screen_center hide">
       <div class="popup">
         <h2>Таблица счета</h2>
         <table>

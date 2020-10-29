@@ -4,12 +4,13 @@
 */
 
 #game-menu {
-  #characters {
+  #characters, #nickname {
     width: 100%;
     margin-bottom: 25px;
+  }
 
+  #characters {
     display: flex;
-    flex-direction: row;
     justify-content: space-around;
     align-items: center;
   }
@@ -36,5 +37,10 @@
 
       cursor: pointer;
     }
+  }
+
+  #nickname {
+    display: flex;
+    flex-direction: column;
   }
 }
