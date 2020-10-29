@@ -16,7 +16,7 @@ function startGame() {
   state.ctx.imageSmoothingQuality = 'high';
   state.ctx.imageSmoothingEnable = false;
 
-  state.game = new Game();
+  state.game = new Game( state.character );
 
 
   state.startTime = performance.now();
