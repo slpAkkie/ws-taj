@@ -1,64 +1,77 @@
+/**
+ * Описание функций запуска и контроля игры
+ */
+
+
+
+// Инициализация необходимых объектов
 function startGame() {
   console.log( 'Начало игры' );
 
-  state.ui.timer = $( '#timer span.data' ).get( 0 ) || null;
-  state.ui.hp = $( '#hp span.data' ).get( 0 ) || null;
-  state.ui.eatenCheese = $( '#eaten-cheese span.data' ).get( 0 ) || null;
-  state.ui.nickname = $( '#player-name span.data' ).get( 0 ) || null;
-
-  state.ui.nickname.innerText = state.nickname;
-
+  // Инициализируем canvas
   state.canvas = $( '#game-zone canvas' ).get( 0 );
   state.canvas.width = document.body.clientWidth;
   state.canvas.height = document.body.clientHeight;
 
+  // Устанавливаем базовую линию
   state.baseLine = state.canvas.height - 200;
 
+  // Настраиваем контекст
   state.ctx = state.canvas.getContext( '2d' );
   state.ctx.imageSmoothingQuality = 'high';
   state.ctx.imageSmoothingEnable = false;
 
+  // Создаем игру
   state.game = new Game( state.character );
 
+  // Инициализируем UI
+  state.game.ui = new UI();
+  state.game.ui.set( 'nickname', state.nickname );
 
-  state.startTime = performance.now();
-  state.gameTime = 0;
+
+  // Планируем запуск обновления фреймов
   state.lastUpdate = null;
-
   requestAnimationFrame( update );
 }
 
 
 
+// Обновление фреймов
 function update( dt ) {
-  if ( state.screen === 'game' && state.game.gameStatus === 'pause' ) {
+  // Если стоит пауза - ничего не отрисовываем
+  if ( state.screen === 'game' && state.game.gameStatus !== 'play' ) {
+    switch ( state.game.gameStatus ) {
+      case 'gameover':
+      case 'end':
+        $( '#score-screen' ).removeClass( 'hide' );
+        return;
+    }
+
     state.lastUpdate = performance.now();
     requestAnimationFrame( update );
 
     return;
   }
 
-  updateTimer( dt );
-
-  state.ctx.fillStyle = '#000000';
-  state.ctx.fillRect( 0, 0, state.canvas.width, state.canvas.height );
+  // Обновляем состояние игры
   state.game.update( dt );
 
+  // Отрисовываем
+  render( dt );
+
+  // Планируем следующий фрейм
   state.lastUpdate = performance.now();
   requestAnimationFrame( update );
 }
 
-function updateTimer( dt ) {
-  state.gameTime += dt - state.lastUpdate;
+// Отрисовывает игру
+function render( dt ) {
+  // Временная зарисовка всего канваса черным
+  state.ctx.fillStyle = '#000000';
+  state.ctx.fillRect( 0, 0, state.canvas.width, state.canvas.height );
 
-  let fullSeconds = Math.floor( state.gameTime / 1000 );
-  let minutes = String( Math.floor( fullSeconds / 60 ) );
-  let seconds = String( fullSeconds % 60 );
-
-  state.ui.timer.innerText =
-    ( minutes.length === 1 ? ( '0' + minutes ) : minutes )
-    + ':' +
-    ( seconds.length === 1 ? ( '0' + seconds ) : seconds );
+  // Запускаем отрисовку игровых объектов
+  state.game.render();
 }
 
 

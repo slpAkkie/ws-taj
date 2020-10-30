@@ -6,14 +6,14 @@ class Sprite {
     this.img = new Image();
     this.img.src = path;
 
-    this.frames = frames;
+    this.frames = frames || 0;
     this.frameIndex = 0;
 
     this.w = width;
     this.h = height;
 
     this.x = x;
-    this.y = y;
+    this.y = y - this.h;
   }
 
   set animationDuration( v ) {
@@ -32,7 +32,7 @@ class Sprite {
     return this.frameIndex * this.w;
   }
 
-  update( dt ) {
+  render( dt ) {
     state.ctx.drawImage(
       this.img, this.frame, 0,
       this.w, this.h,

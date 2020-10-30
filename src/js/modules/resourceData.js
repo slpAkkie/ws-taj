@@ -1,6 +1,6 @@
 window.resourceData = {
-  'jerry-stay': {
-    'path': '..\\img\\sprites\\jerry-stay.png',
+  'jerry-idle': {
+    'path': '..\\img\\sprites\\jerry-idle.png',
     'frames': 1,
     'width': 28,
     'height': 42,
@@ -11,8 +11,8 @@ window.resourceData = {
     'width': 28,
     'height': 42,
   },
-  'tuffy-stay': {
-    'path': '..\\img\\sprites\\tuffy-stay.png',
+  'tuffy-idle': {
+    'path': '..\\img\\sprites\\tuffy-idle.png',
     'frames': 15,
     'width': 28,
     'height': 27,
@@ -31,11 +31,17 @@ window.resourceData = {
   },
   'hill': {
     'path': '..\\img\\Chair.png',
+    'width': 1500,
+    'height': 1500,
   },
   'cheese': {
     'path': '..\\img\\Cheese.png',
+    'width': 137,
+    'height': 95,
   },
   'bg': {
     'path': '..\\img\\BG.png',
+    'width': 1599,
+    'height': 837,
   },
 }
