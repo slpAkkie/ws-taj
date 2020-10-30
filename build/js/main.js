@@ -4,8 +4,8 @@
 
 // Скрипты игры
 window.resourceData = {
-  'jerry-stay': {
-    'path': '..\\img\\sprites\\jerry-stay.png',
+  'jerry-idle': {
+    'path': '..\\img\\sprites\\jerry-idle.png',
     'frames': 1,
     'width': 28,
     'height': 42,
@@ -16,8 +16,8 @@ window.resourceData = {
     'width': 28,
     'height': 42,
   },
-  'tuffy-stay': {
-    'path': '..\\img\\sprites\\tuffy-stay.png',
+  'tuffy-idle': {
+    'path': '..\\img\\sprites\\tuffy-idle.png',
     'frames': 15,
     'width': 28,
     'height': 27,
@@ -36,54 +36,130 @@ window.resourceData = {
   },
   'hill': {
     'path': '..\\img\\Chair.png',
+    'width': 1500,
+    'height': 1500,
   },
   'cheese': {
     'path': '..\\img\\Cheese.png',
+    'width': 137,
+    'height': 95,
   },
   'bg': {
     'path': '..\\img\\BG.png',
+    'width': 1599,
+    'height': 837,
   },
 }
+/**
+ * Глобальный объект для хранения состояния игры
+ */
+
 window.state = {
-  screen: 'prehistory',
-  nickname: null,
-  character: null,
-  ui: {},
-  baseLine: null,
+  screen: 'prehistory',     // Активный экран
+  restart: false,
+  nickname: null,           // Никнейм игрока
+  character: null,          // Выбранный персонаж
+  ui: {},                   // Ссылки на UI элементы
+  baseLine: null,           // Базовая y координата для спавна
   pressedKey: {
     LEFT: false,
     RIGHT: false,
-    UP: false,
   },
+
+  dt( dt ) {
+    return dt - ( this.lastUpdate || dt )
+  }
 }
+/**
+ * Основной функционал игры
+ */
+
+
+
 class Game {
 
-  hp = 100;
   eatenCheese = 0;
   gameStatus = 'play';
 
   constructor( character ) {
+    this.startAt = performance.now();
+    this.time = 0;
+
+    // Создаем персонажа
     this.player = new Player( character );
 
-    $( document ).on( 'keydown keyup', ( e ) => {
-      if ( e.originalEvent.repeat ) return;
+    this.bg = new Sprite( resourceData[ 'bg' ] );
 
-      ( e.code === 'KeyA' && e.type === 'keydown' ) && ( state.pressedKey.LEFT = true );
-      ( e.code === 'KeyA' && e.type === 'keyup' ) && ( state.pressedKey.LEFT = false );
-      ( e.code === 'KeyD' && e.type === 'keydown' ) && ( state.pressedKey.RIGHT = true );
-      ( e.code === 'KeyD' && e.type === 'keyup' ) && ( state.pressedKey.RIGHT = false );
-      ( e.code === 'KeyW' && e.type === 'keydown' ) && ( state.pressedKey.UP = true );
-      ( e.code === 'KeyW' && e.type === 'keyup' ) && ( state.pressedKey.UP = false );
-
-      if ( e.code === 'Escape' ) {
-        this.gameStatus = this.gameStatus === 'play' ? 'pause' : 'play';
-        $( '#pause-screen' ).toggleClass( 'hide' );
-      }
-    } );
+    // Слежка за нажатием и отжатием клавиш
+    !state.restart && $( document ).on( 'keydown keyup', this.keypress.bind( this ) )
   }
 
+  keypress( e ) {
+    // Если кнопка зажата, то выходим
+    if ( e.originalEvent.repeat ) return;
+
+    // Если кнопки передвижения, то переключаем действие игрока
+    if ( e.type === 'keydown' )
+      switch ( e.code ) {
+        case 'KeyA':
+          state.pressedKey.LEFT = true;
+          break;
+        case 'KeyD':
+          state.pressedKey.RIGHT = true;
+          break;
+        case 'Escape':
+          this.gameStatus = this.gameStatus === 'play' ? 'pause' : 'play';
+          $( '#pause-screen' ).toggleClass( 'hide' );
+          break;
+        case 'ShiftLeft':
+        case 'ShiftRight':
+          this.ui.set( 'muteStatus',
+            this.ui.get( 'muteStatus' ) === 'Включить звук - SHIFT'
+              ? 'Выключить звук - SHIFT'
+              : 'Включить звук - SHIFT' );
+          // this.muteToggle();
+          break;
+      }
+    else
+      switch ( e.code ) {
+        case 'KeyA':
+          state.pressedKey.LEFT = false;
+          break;
+        case 'KeyD':
+          state.pressedKey.RIGHT = false;
+          break;
+      }
+  }
+
+  // Обновление игровых объектов
   update( dt ) {
+    this.updateTimer( dt );
+    this.player._hp -= state.dt( dt ) / 1000;
+    this.ui.set( 'hp', this.player.hp );
+    this.ui.set( 'eatenCheese', this.eatenCheese );
     this.player.update( dt );
+
+    ( this.player.hp <= 0 ) && ( this.gameStatus = 'gameover' );
+  }
+
+  // Обновление значения таймера
+  updateTimer( dt ) {
+    this.time += state.dt( dt );
+
+    let fullSeconds = Math.floor( this.time / 1000 );
+    let minutes = String( Math.floor( fullSeconds / 60 ) );
+    let seconds = String( fullSeconds % 60 );
+
+    this.ui.set( 'timer',
+      ( minutes.length === 1 ? ( '0' + minutes ) : minutes )
+      + ':' +
+      ( seconds.length === 1 ? ( '0' + seconds ) : seconds )
+    );
+  }
+
+  // Отрисовываем игровые объекты
+  render( dt ) {
+    this.player.render( dt );
   }
 
 }
@@ -95,14 +171,14 @@ class Sprite {
     this.img = new Image();
     this.img.src = path;
 
-    this.frames = frames;
+    this.frames = frames || 0;
     this.frameIndex = 0;
 
     this.w = width;
     this.h = height;
 
     this.x = x;
-    this.y = y;
+    this.y = y - this.h;
   }
 
   set animationDuration( v ) {
@@ -121,7 +197,7 @@ class Sprite {
     return this.frameIndex * this.w;
   }
 
-  update( dt ) {
+  render( dt ) {
     state.ctx.drawImage(
       this.img, this.frame, 0,
       this.w, this.h,
@@ -140,123 +216,149 @@ class Sprite {
 
 }
 class Player {
-  sprite = { walk: null, stay: null, jump: null }
-  action = 'stay';
-  moveDirection = 0;
+  sprite = { walk: null, idle: null }
+  state = 'idle';
 
-  get currentSprite() {
-    return this.sprite[ this.action ]
-  }
+  _x;
+  _y;
 
-  set spriteX( v ) {
+  set x( v ) {
+    this._x = v;
+    this.sprite.idle.x = v;
     this.sprite.walk.x = v;
-    this.sprite.stay.x = v;
   }
 
-  get spriteX() {
-    return this.sprite.walk.x;
+  set y( v ) {
+    this._y = v;
+    this.sprite.idle.y = v;
+    this.sprite.walk.y = v;
+  }
+
+  _hp = 100;
+
+  set hp( v ) {
+    this._hp = ( v > 100 ? 100 : v < 0 ? 0 : v );
+  }
+
+  get hp() {
+    return Math.ceil( this._hp );
   }
 
   constructor( character ) {
-    this.sprite.walk = new Sprite( resourceData[ character.toLowerCase() + '-walk' ] );
+    this.sprite.walk = new Sprite( resourceData[ character + '-walk' ] );
     this.sprite.walk.animationDuration = 800;
-    this.sprite.stay = new Sprite( resourceData[ character.toLowerCase() + '-stay' ] );
-    this.sprite.jump = this.sprite.stay;
-  }
-
-  updateAction() {
-    this.action = ( state.pressedKey.LEFT || state.pressedKey.RIGHT )
-      ? 'walk'
-      : state.pressedKey.UP
-        ? 'jump'
-        : 'stay';
-  }
-
-  move() {
-    if ( state.pressedKey.LEFT || state.pressedKey.RIGHT ) {
-      this.moveDirection = state.pressedKey.LEFT ? -1 : 1;
-    } else this.moveDirection = 0;
-
-
-    if ( this.moveDirection === -1 ) {
-      state.ctx.scale( -1, 1 );
-
-      this.spriteX = -this.spriteX - this.sprite.stay.w - this.moveDirection;
-    } else {
-      this.spriteX = this.spriteX + this.moveDirection;
-    }
+    this.sprite.idle = new Sprite( resourceData[ character + '-idle' ] );
   }
 
   update( dt ) {
-    state.ctx.save();
-    this.updateAction();
-    this.move();
+    this.state = ( state.pressedKey.LEFT || state.pressedKey.RIGHT ) ? 'walk' : 'idle';
+  }
 
-    this.currentSprite.update( dt );
-    state.ctx.restore();
+  render( dt ) {
+    this.sprite[ this.state ].render( dt );
   }
 }
+/**
+ * Предоставление доступа к элементам UI
+ */
+
+
+
+class UI {
+  constructor() {
+    this.timer = $( '#timer span.data' ).get( 0 ) || null;
+    this.hp = $( '#hp span.data' ).get( 0 ) || null;
+    this.eatenCheese = $( '#eaten-cheese span.data' ).get( 0 ) || null;
+    this.nickname = $( '#player-name span.data' ).get( 0 ) || null;
+    this.muteStatus = $( '#mute-status span.data' ).get( 0 ) || null;
+  }
+
+  set( k, v ) {
+    if ( !this[ k ] || this.get( k ) === String( v ) ) return;
+
+    this[ k ].innerText = v;
+  }
+
+  get( k ) {
+    if ( !this[ k ] ) return;
+
+    return this[ k ].innerText;
+  }
+}
+/**
+ * Описание функций запуска и контроля игры
+ */
+
+
+
+// Инициализация необходимых объектов
 function startGame() {
   console.log( 'Начало игры' );
 
-  state.ui.timer = $( '#timer span.data' ).get( 0 ) || null;
-  state.ui.hp = $( '#hp span.data' ).get( 0 ) || null;
-  state.ui.eatenCheese = $( '#eaten-cheese span.data' ).get( 0 ) || null;
-  state.ui.nickname = $( '#player-name span.data' ).get( 0 ) || null;
-
-  state.ui.nickname.innerText = state.nickname;
-
+  // Инициализируем canvas
   state.canvas = $( '#game-zone canvas' ).get( 0 );
   state.canvas.width = document.body.clientWidth;
   state.canvas.height = document.body.clientHeight;
 
+  // Устанавливаем базовую линию
   state.baseLine = state.canvas.height - 200;
 
+  // Настраиваем контекст
   state.ctx = state.canvas.getContext( '2d' );
   state.ctx.imageSmoothingQuality = 'high';
   state.ctx.imageSmoothingEnable = false;
 
+  // Создаем игру
   state.game = new Game( state.character );
 
+  // Инициализируем UI
+  state.game.ui = new UI();
+  state.game.ui.set( 'nickname', state.nickname );
 
-  state.startTime = performance.now();
-  state.gameTime = 0;
+
+  // Планируем запуск обновления фреймов
   state.lastUpdate = null;
-
   requestAnimationFrame( update );
 }
 
 
 
+// Обновление фреймов
 function update( dt ) {
-  if ( state.screen === 'game' && state.game.gameStatus === 'pause' ) {
+  // Если стоит пауза - ничего не отрисовываем
+  if ( state.screen === 'game' && state.game.gameStatus !== 'play' ) {
+    switch ( state.game.gameStatus ) {
+      case 'gameover':
+      case 'end':
+        $( '#score-screen' ).removeClass( 'hide' );
+        return;
+    }
+
     state.lastUpdate = performance.now();
     requestAnimationFrame( update );
 
     return;
   }
 
-  updateTimer( dt );
-
-  state.ctx.fillStyle = '#000000';
-  state.ctx.fillRect( 0, 0, state.canvas.width, state.canvas.height );
+  // Обновляем состояние игры
   state.game.update( dt );
 
+  // Отрисовываем
+  render( dt );
+
+  // Планируем следующий фрейм
   state.lastUpdate = performance.now();
   requestAnimationFrame( update );
 }
 
-function updateTimer( dt ) {
-  state.gameTime += dt - state.lastUpdate;
+// Отрисовывает игру
+function render( dt ) {
+  // Временная зарисовка всего канваса черным
+  state.ctx.fillStyle = '#000000';
+  state.ctx.fillRect( 0, 0, state.canvas.width, state.canvas.height );
 
-  let fullSeconds = Math.floor( state.gameTime / 1000 );
-  let minutes = String( Math.floor( fullSeconds / 60 ) );
-  let seconds = String( fullSeconds % 60 );
-
-  state.ui.timer.innerText =
-    ( minutes.length === 1 ? ( '0' + minutes ) : minutes )
-    + ':' +
-    ( seconds.length === 1 ? ( '0' + seconds ) : seconds );
+  // Запускаем отрисовку игровых объектов
+  state.game.render();
 }
 
 
@@ -299,6 +401,8 @@ $( '.character' ).on( 'click', chooseCharacter );
 $( '#nickname input' ).on( 'keyup', checkStartButton );
 // Клик по кнопке "Начать игру"
 $( '#js-start' ).on( 'click', goToGame );
+// Клик по кнопке "Начать заново"
+$( '#js-restart' ).on( 'click', () => { state.restart = false; goToGame() } );
 
 
 
@@ -306,6 +410,7 @@ $( '#js-start' ).on( 'click', goToGame );
  * Фнукции-обработчики
  */
 
+// Проверка и переход на экран игрового меню
 function goToGameMenu( { end, key, click } ) {
   if (
     state.screen !== 'prehistory'
@@ -331,6 +436,7 @@ function goToGameMenu( { end, key, click } ) {
 }
 
 
+// Выбор персонажа
 function chooseCharacter() {
   $( this ).hasClass( 'chosen' )
     ? $( this ).removeClass( 'chosen' )
@@ -339,6 +445,7 @@ function chooseCharacter() {
   checkStartButton();
 }
 
+// Обновление состояния кнопки начала игры
 function checkStartButton() {
   $( '#js-start' ).attr( 'disabled',
     !$( '#characters' ).find( '.chosen' ).length
@@ -346,24 +453,28 @@ function checkStartButton() {
   );
 }
 
+// Переход к экрану игры
 function goToGame() {
-  state.nickname = $( '#nickname input' ).val();
-  state.character = $( $( '.chosen' ).get( 0 ) ).attr( 'data-character' );
+  state.nickname = state.nickname || $( '#nickname input' ).val();
+  state.character = state.character || $( $( '.chosen' ).get( 0 ) ).attr( 'data-character' ).toLowerCase();
   state.screen = 'game';
   screenChangeLog();
 
   $( '#game-menu' ).addClass( 'hide' );
+  $( '#score-screen' ).addClass( 'hide' );
   $( '#game-zone' ).removeClass( 'hide' );
 
   stateLog();
-  // Начало игры
+  startGame();
 }
 
 
+// Вывод изменения текущего экрана
 function screenChangeLog() {
   console.log( `[state.screen] => ${state.screen}` );
 }
 
+// Вывод наименования текущего экрана
 function stateLog() {
   console.log( `[state] =>` );
   console.log( state );

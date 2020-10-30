@@ -1,57 +1,43 @@
 class Player {
-  sprite = { walk: null, stay: null, jump: null }
-  action = 'stay';
-  moveDirection = 0;
+  sprite = { walk: null, idle: null }
+  state = 'idle';
 
-  get currentSprite() {
-    return this.sprite[ this.action ]
-  }
+  _x;
+  _y;
 
-  set spriteX( v ) {
+  set x( v ) {
+    this._x = v;
+    this.sprite.idle.x = v;
     this.sprite.walk.x = v;
-    this.sprite.stay.x = v;
   }
 
-  get spriteX() {
-    return this.sprite.walk.x;
+  set y( v ) {
+    this._y = v;
+    this.sprite.idle.y = v;
+    this.sprite.walk.y = v;
+  }
+
+  _hp = 100;
+
+  set hp( v ) {
+    this._hp = ( v > 100 ? 100 : v < 0 ? 0 : v );
+  }
+
+  get hp() {
+    return Math.ceil( this._hp );
   }
 
   constructor( character ) {
-    this.sprite.walk = new Sprite( resourceData[ character.toLowerCase() + '-walk' ] );
+    this.sprite.walk = new Sprite( resourceData[ character + '-walk' ] );
     this.sprite.walk.animationDuration = 800;
-    this.sprite.stay = new Sprite( resourceData[ character.toLowerCase() + '-stay' ] );
-    this.sprite.jump = this.sprite.stay;
-  }
-
-  updateAction() {
-    this.action = ( state.pressedKey.LEFT || state.pressedKey.RIGHT )
-      ? 'walk'
-      : state.pressedKey.UP
-        ? 'jump'
-        : 'stay';
-  }
-
-  move() {
-    if ( state.pressedKey.LEFT || state.pressedKey.RIGHT ) {
-      this.moveDirection = state.pressedKey.LEFT ? -1 : 1;
-    } else this.moveDirection = 0;
-
-
-    if ( this.moveDirection === -1 ) {
-      state.ctx.scale( -1, 1 );
-
-      this.spriteX = -this.spriteX - this.sprite.stay.w - this.moveDirection;
-    } else {
-      this.spriteX = this.spriteX + this.moveDirection;
-    }
+    this.sprite.idle = new Sprite( resourceData[ character + '-idle' ] );
   }
 
   update( dt ) {
-    state.ctx.save();
-    this.updateAction();
-    this.move();
+    this.state = ( state.pressedKey.LEFT || state.pressedKey.RIGHT ) ? 'walk' : 'idle';
+  }
 
-    this.currentSprite.update( dt );
-    state.ctx.restore();
+  render( dt ) {
+    this.sprite[ this.state ].render( dt );
   }
 }

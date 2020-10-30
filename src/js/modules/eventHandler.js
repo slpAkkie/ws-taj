@@ -28,6 +28,8 @@ $( '.character' ).on( 'click', chooseCharacter );
 $( '#nickname input' ).on( 'keyup', checkStartButton );
 // Клик по кнопке "Начать игру"
 $( '#js-start' ).on( 'click', goToGame );
+// Клик по кнопке "Начать заново"
+$( '#js-restart' ).on( 'click', () => { state.restart = false; goToGame() } );
 
 
 
@@ -35,6 +37,7 @@ $( '#js-start' ).on( 'click', goToGame );
  * Фнукции-обработчики
  */
 
+// Проверка и переход на экран игрового меню
 function goToGameMenu( { end, key, click } ) {
   if (
     state.screen !== 'prehistory'
@@ -60,6 +63,7 @@ function goToGameMenu( { end, key, click } ) {
 }
 
 
+// Выбор персонажа
 function chooseCharacter() {
   $( this ).hasClass( 'chosen' )
     ? $( this ).removeClass( 'chosen' )
@@ -68,6 +72,7 @@ function chooseCharacter() {
   checkStartButton();
 }
 
+// Обновление состояния кнопки начала игры
 function checkStartButton() {
   $( '#js-start' ).attr( 'disabled',
     !$( '#characters' ).find( '.chosen' ).length
@@ -75,24 +80,28 @@ function checkStartButton() {
   );
 }
 
+// Переход к экрану игры
 function goToGame() {
-  state.nickname = $( '#nickname input' ).val();
-  state.character = $( $( '.chosen' ).get( 0 ) ).attr( 'data-character' );
+  state.nickname = state.nickname || $( '#nickname input' ).val();
+  state.character = state.character || $( $( '.chosen' ).get( 0 ) ).attr( 'data-character' ).toLowerCase();
   state.screen = 'game';
   screenChangeLog();
 
   $( '#game-menu' ).addClass( 'hide' );
+  $( '#score-screen' ).addClass( 'hide' );
   $( '#game-zone' ).removeClass( 'hide' );
 
   stateLog();
-  // Начало игры
+  startGame();
 }
 
 
+// Вывод изменения текущего экрана
 function screenChangeLog() {
   console.log( `[state.screen] => ${state.screen}` );
 }
 
+// Вывод наименования текущего экрана
 function stateLog() {
   console.log( `[state] =>` );
   console.log( state );
