@@ -1,3 +1,3 @@
-class Entity {
+class Entity extends SimpleObject {
 
 }
