@@ -13,6 +13,11 @@ class Game {
     this.startAt = performance.now();
     this.time = 0;
 
+    // Инициализируем UI
+    console.log( 'Создаем UI' );
+    this.ui = new UI();
+    this.ui.set( 'nickname', state.nickname );
+
     // Создаем персонажа
     this.player = new Player( character );
 
