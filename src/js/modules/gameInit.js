@@ -10,8 +10,8 @@ function startGame() {
 
   // Инициализируем canvas
   state.canvas = $( '#game-zone canvas' ).get( 0 );
-  state.canvas.width = document.body.clientWidth;
-  state.canvas.height = document.body.clientHeight;
+  state.canvas.width = 1599;
+  state.canvas.height = 837;
 
   // Устанавливаем базовую линию
   state.baseLine = state.canvas.height - 200;

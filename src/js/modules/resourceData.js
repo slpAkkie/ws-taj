@@ -40,7 +40,7 @@ window.resourceData = {
     'height': 95,
   },
   'bg': {
-    'path': '..\\img\\BG.png',
+    'path': '..\\img\\BG.jpg',
     'width': 1599,
     'height': 837,
   },

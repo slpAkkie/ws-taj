@@ -1,7 +1,7 @@
 class Sprite {
 
   constructor( { path, frames, width, height }, x = 0, y = state.baseLine ) {
-    if ( !path || !frames || !width || !height ) return false;
+    if ( !path || !width || !height ) return false;
 
     this.img = new Image();
     this.img.src = path;

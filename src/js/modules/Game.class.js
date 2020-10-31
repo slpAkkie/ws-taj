@@ -16,7 +16,8 @@ class Game {
     // Создаем персонажа
     this.player = new Player( character );
 
-    this.bg = new Sprite( resourceData[ 'bg' ] );
+    this.bg = new Image();
+    this.bg.src = resourceData.bg.path;
 
     // Слежка за нажатием и отжатием клавиш
     !state.restart && $( document ).on( 'keydown keyup', this.keypress.bind( this ) )
@@ -87,6 +88,7 @@ class Game {
 
   // Отрисовываем игровые объекты
   render( dt ) {
+    state.ctx.drawImage( this.bg, 0, 0 );
     this.player.render( dt );
   }
 

@@ -45,7 +45,7 @@ window.resourceData = {
     'height': 95,
   },
   'bg': {
-    'path': '..\\img\\BG.png',
+    'path': '..\\img\\BG.jpg',
     'width': 1599,
     'height': 837,
   },
@@ -88,7 +88,8 @@ class Game {
     // Создаем персонажа
     this.player = new Player( character );
 
-    this.bg = new Sprite( resourceData[ 'bg' ] );
+    this.bg = new Image();
+    this.bg.src = resourceData.bg.path;
 
     // Слежка за нажатием и отжатием клавиш
     !state.restart && $( document ).on( 'keydown keyup', this.keypress.bind( this ) )
@@ -159,6 +160,7 @@ class Game {
 
   // Отрисовываем игровые объекты
   render( dt ) {
+    state.ctx.drawImage( this.bg, 0, 0 );
     this.player.render( dt );
   }
 
@@ -166,7 +168,7 @@ class Game {
 class Sprite {
 
   constructor( { path, frames, width, height }, x = 0, y = state.baseLine ) {
-    if ( !path || !frames || !width || !height ) return false;
+    if ( !path || !width || !height ) return false;
 
     this.img = new Image();
     this.img.src = path;
@@ -297,8 +299,8 @@ function startGame() {
 
   // Инициализируем canvas
   state.canvas = $( '#game-zone canvas' ).get( 0 );
-  state.canvas.width = document.body.clientWidth;
-  state.canvas.height = document.body.clientHeight;
+  state.canvas.width = 1599;
+  state.canvas.height = 837;
 
   // Устанавливаем базовую линию
   state.baseLine = state.canvas.height - 200;
