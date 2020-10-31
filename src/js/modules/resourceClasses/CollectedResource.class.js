@@ -1,0 +1,3 @@
+class CollectedResource extends EntityImage {
+
+}
