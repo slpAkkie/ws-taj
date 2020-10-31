@@ -1,0 +1,3 @@
+class CharacterResource extends EntitySprite {
+
+}

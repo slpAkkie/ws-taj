@@ -92,7 +92,7 @@ function goToGame() {
   $( '#game-zone' ).removeClass( 'hide' );
 
   stateLog();
-  startGame();
+  window.game = new Game( window.gameData.nickname, window.gameData.character );
 }
 
 
