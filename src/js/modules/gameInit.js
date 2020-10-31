@@ -12,24 +12,25 @@ function startGame() {
   state.canvas = $( '#game-zone canvas' ).get( 0 );
   state.canvas.width = document.body.clientWidth;
   state.canvas.height = document.body.clientHeight;
+  console.log( 'Канвас сохранен и настроен' );
 
   // Устанавливаем базовую линию
   state.baseLine = state.canvas.height - 200;
+  console.log( `Базовая линия = ${state.baseLine}` );
 
   // Настраиваем контекст
   state.ctx = state.canvas.getContext( '2d' );
   state.ctx.imageSmoothingQuality = 'high';
   state.ctx.imageSmoothingEnable = false;
+  console.log( 'Контекст сохранен и настроен' );
 
   // Создаем игру
+  console.log( 'Создаем игру' );
   state.game = new Game( state.character );
-
-  // Инициализируем UI
-  state.game.ui = new UI();
-  state.game.ui.set( 'nickname', state.nickname );
 
 
   // Планируем запуск обновления фреймов
+  console.log( 'Планируем первый фрейм' );
   state.lastUpdate = null;
   requestAnimationFrame( update );
 }
@@ -71,7 +72,7 @@ function render( dt ) {
   state.ctx.fillRect( 0, 0, state.canvas.width, state.canvas.height );
 
   // Запускаем отрисовку игровых объектов
-  state.game.render();
+  state.game.render( dt );
 }
 
 
