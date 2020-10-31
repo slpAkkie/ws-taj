@@ -1,35 +1,26 @@
-/** Настройка */
-
-// Делаем звук ролика тише
+/** Установим громкость на половину */
 $( '#prehistory video' ).get( 0 ).volume = 0.5;
 console.log( `Громкость плеера установленна на ${$( '#prehistory video' ).get( 0 ).volume}` );
 
 
 
 /**
- * Устанавливаем обработчики
+ * Установим обработчики
  */
-
-/** Обработчики экрана истории */
 
 // По окончанию ролика
 $( '#prehistory video' ).on( 'ended', () => goToGameMenu( { end: true } ) );
-// По Нажатию пробела
+// По нажатию пробела
 $( document ).on( 'keydown', ( e ) => goToGameMenu( { key: e.code === 'Space' } ) );
 // По нажатию на подсказку
 $( '.skip' ).on( 'click', () => goToGameMenu( { click: true } ) );
-
-
-/** Обработчики игрового меню */
 
 // Выбор персонажа
 $( '.character' ).on( 'click', chooseCharacter );
 // Ввод никнейма
 $( '#nickname input' ).on( 'keyup', checkStartButton );
 // Клик по кнопке "Начать игру"
-$( '#js-start' ).on( 'click', goToGame );
-// Клик по кнопке "Начать заново"
-$( '#js-restart' ).on( 'click', () => { state.restart = false; goToGame() } );
+$( '#js-start, #js-restart' ).on( 'click', goToGame );
 
 
 
@@ -40,7 +31,7 @@ $( '#js-restart' ).on( 'click', () => { state.restart = false; goToGame() } );
 // Проверка и переход на экран игрового меню
 function goToGameMenu( { end, key, click } ) {
   if (
-    state.screen !== 'prehistory'
+    window.window.gameData.screen !== 'prehistory'
     || ( !end && !key && !click )
   ) return;
 
@@ -58,7 +49,7 @@ function goToGameMenu( { end, key, click } ) {
     }, 100 * k );
   } );
 
-  state.screen = 'menu';
+  window.gameData.screen = 'menu';
   screenChangeLog();
 }
 
@@ -82,27 +73,27 @@ function checkStartButton() {
 
 // Переход к экрану игры
 function goToGame() {
-  state.nickname = state.nickname || $( '#nickname input' ).val();
-  state.character = state.character || $( $( '.chosen' ).get( 0 ) ).attr( 'data-character' ).toLowerCase();
-  state.screen = 'game';
+  window.gameData.nickname = window.gameData.nickname || $( '#nickname input' ).val();
+  window.gameData.character = window.gameData.character || $( $( '.chosen' ).get( 0 ) ).attr( 'data-character' ).toLowerCase();
+  window.gameData.screen = 'game';
   screenChangeLog();
 
   $( '#game-menu' ).addClass( 'hide' );
   $( '#score-screen' ).addClass( 'hide' );
   $( '#game-zone' ).removeClass( 'hide' );
 
-  stateLog();
+  window.gameDataLog();
   window.game = new Game( window.gameData.nickname, window.gameData.character );
 }
 
 
 // Вывод изменения текущего экрана
 function screenChangeLog() {
-  console.log( `[state.screen] => ${state.screen}` );
+  console.log( `[window.gameData.screen] => ${window.gameData.screen}` );
 }
 
 // Вывод наименования текущего экрана
-function stateLog() {
-  console.log( `[state] =>` );
-  console.log( state );
+function gameDataLog() {
+  console.log( `[window.gameData] =>` );
+  console.log( window.gameData );
 }
