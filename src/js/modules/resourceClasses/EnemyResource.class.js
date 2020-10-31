@@ -1,0 +1,3 @@
+class EnemyResource extends EntitySprite {
+
+}
