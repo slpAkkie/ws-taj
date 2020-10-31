@@ -1,3 +1,0 @@
-class BackgroundResource extends EntityImage {
-
-}

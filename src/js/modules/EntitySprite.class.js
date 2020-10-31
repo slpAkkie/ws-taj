@@ -1,3 +1,0 @@
-class EntitySprite extends EntityImage {
-
-}
