@@ -36,8 +36,8 @@ window.gameResources = {
   } ),
   'hill': new EntityImage( {
     'path': '..\\img\\Chair.png',
-    'width': 1500,
-    'height': 1500,
+    'width': 200,
+    'height': 200,
   } ),
   'cheese': new EntityImage( {
     'path': '..\\img\\Cheese.png',
@@ -45,8 +45,13 @@ window.gameResources = {
     'height': 95,
   } ),
   'bg': new EntityImage( {
-    'path': '..\\img\\BG.png',
+    'path': '..\\img\\BG.jpg',
     'width': 1599,
     'height': 837,
   } ),
+  'audio': ( function () {
+    let audio = new Audio();
+    audio.src = '..\\media\\audio.mp3';
+    return audio;
+  } )(),
 }
