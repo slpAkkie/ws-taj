@@ -13,14 +13,28 @@ class EntityImage {
     this.#path = path;
     this.#w = width;
     this.#h = height;
+    this.load();
+  }
+
+  get width() {
+    return this.#img.naturalWidth;
+  }
+  get height() {
+    return this.#img.naturalHeight;
+  }
+
+  get w() {
+    return this.#w;
   }
 
   // Получить картинку
   getRenderData() {
     return {
       img: this.#img,
-      width: this.#w,
-      height: this.#h,
+      sw: this.width,
+      sh: this.height,
+      dw: this.#w,
+      dh: this.#h,
     };
   }
 
@@ -29,8 +43,10 @@ class EntityImage {
     return {
       path: this.#path,
       img: this.#img,
-      width: this.#w,
-      height: this.#h,
+      sw: this.#img.width,
+      sh: this.#img.height,
+      dw: this.#w,
+      dh: this.#h,
     };
   }
 
