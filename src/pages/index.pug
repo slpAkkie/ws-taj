@@ -7,13 +7,13 @@ html(lang="ru")
     title Tom And Jerry
   body.container__full-screen
     // Видеоролик с предысторией героев
-    #prehistory.container__full-screen.hide
+    #prehistory.container__full-screen
       video.full-screen(src="media/TAJ-history.mp4" autoplay muted)
       .skip.bottom
         p Нажмите "Пробел", чтобы пропустить ролик
 
     // Игра
-    #game-zone.container__full-screen.container__full-screen_center
+    #game-zone.container__full-screen.container__full-screen_center.hide
       // Оверлей с игровой информацией
       #UI.full-screen
         #UI-left

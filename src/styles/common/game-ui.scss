@@ -1,8 +1,7 @@
 #UI {
-  margin: 25px;
+  margin: 25px 75px;
 
   font-size: 1.5rem;
-  color: white;
 
   #UI-left, #UI-right {
     top: 0;
@@ -22,7 +21,7 @@
   }
 
   span.data {
-    color: #a7fffb;
+    font-weight: 700;
   }
 
   #eaten-cheese {
@@ -41,8 +40,4 @@
 
 #game-zone {
   background-color: #333;
-
-  canvas {
-    width: 100%;
-  }
 }

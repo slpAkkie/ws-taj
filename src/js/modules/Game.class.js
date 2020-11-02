@@ -1,100 +1,254 @@
-/**
- * Основной функционал игры
- */
-
-
-
 class Game {
 
-  eatenCheese = 0;
-  gameStatus = 'play';
+  #BG = [];
+  #canvas;
+  ctx;
+  #baseLine = 700;
+  fullGameWidth;
 
-  constructor( character ) {
-    this.startAt = performance.now();
-    this.time = 0;
+  #time = {
+    start: performance.now(),
+    _gameTime: 0,
+    lastUpadate: null,
+    dt: null,
 
-    // Инициализируем UI
-    console.log( 'Создаем UI' );
-    this.ui = new UI();
-    this.ui.set( 'nickname', state.nickname );
+    update() {
+      this.dt = performance.now() - ( this.lastUpadate || this.start )
+      this.lastUpadate = performance.now();
 
-    // Создаем персонажа
-    this.player = new Player( character );
+      this._gameTime += this.dt;
+    },
 
-    this.bg = new Image();
-    this.bg.src = resourceData.bg.path;
+    get gameTime() {
+      let fullSeconds = Math.floor( this._gameTime / 1000 );
+      let minutes = String( Math.floor( fullSeconds / 60 ) );
+      let seconds = String( fullSeconds % 60 );
 
-    // Слежка за нажатием и отжатием клавиш
-    !state.restart && $( document ).on( 'keydown keyup', this.keypress.bind( this ) )
+      return ( minutes.length === 1 ? ( '0' + minutes ) : minutes )
+        + ':' +
+        ( seconds.length === 1 ? ( '0' + seconds ) : seconds );
+    }
+  };
+
+  state = {
+    side: 'left',
+    isPause: false,
+    isEnd: false,
+    isGameover: false,
+    isMuted: false,
+    globalLeftOffset: 0,
+    visibleXCoords: {
+      get left() {
+        return 0;
+      },
+
+      get right() {
+        return this.left + this.canvWidth;
+      },
+    },
+  };
+
+  pressedKey = {
+    LEFT: false,
+    RIGHT: false,
+    UP: false,
+
+    get isMoving() {
+      return ( this.LEFT || this.RIGHT );
+    }
+  };
+
+  constructor() {
+    this.#getCanvas();
+    this.#getUI();
+    this.#BG[ 0 ] = new Background();
+    this.#setCanvas();
+    this.#BG[ 1 ] = new Background( this.canvWidth );
+    this.#createAudio();
+
+    this.player = new Player( 0, this.#baseLine );
+    this.player.setSprite( gameData.character, 'idle' );
+    this.player.setSprite( gameData.character, 'walk' );
+
+    this.#createCollectableItems();
+    this.#createHills();
+    this.#createEnemies();
+
+    this.#setTime();
+    this.#setUI();
+
+    requestAnimationFrame( this.cycle.bind( this ) );
   }
 
-  keypress( e ) {
-    // Если кнопка зажата, то выходим
-    if ( e.originalEvent.repeat ) return;
+  #getCanvas() {
+    this.#canvas = $( '#game-zone canvas' ).get( 0 );
+    this.ctx = this.#canvas.getContext( '2d' );
+    this.ctx.imageSmoothingQuality = 'high';
+  }
 
-    // Если кнопки передвижения, то переключаем действие игрока
-    if ( e.type === 'keydown' )
-      switch ( e.code ) {
-        case 'KeyA':
-          state.pressedKey.LEFT = true;
-          break;
-        case 'KeyD':
-          state.pressedKey.RIGHT = true;
-          break;
-        case 'Escape':
-          this.gameStatus = this.gameStatus === 'play' ? 'pause' : 'play';
-          $( '#pause-screen' ).toggleClass( 'hide' );
-          break;
-        case 'ShiftLeft':
-        case 'ShiftRight':
-          this.ui.set( 'muteStatus',
-            this.ui.get( 'muteStatus' ) === 'Включить звук - SHIFT'
-              ? 'Выключить звук - SHIFT'
-              : 'Включить звук - SHIFT' );
-          // this.muteToggle();
-          break;
+  #setCanvas() {
+    this.canvWidth = this.#BG[ 0 ].img.width;
+    this.canvHeight = this.#BG[ 0 ].img.height;
+
+    let k = document.body.clientWidth / this.canvWidth;
+    if ( k * this.canvHeight > document.body.clientHeight ) k = document.body.clientHeight / this.canvHeight;
+
+    $( this.#canvas ).css( { width: k * this.canvWidth, height: k * this.canvHeight } );
+    this.#canvas.width = this.canvWidth;
+    this.#canvas.height = this.canvHeight;
+
+    this.fullGameWidth = this.canvWidth * 5;
+  }
+
+  #getUI() {
+    this.UI = new UI();
+  }
+
+  #setUI() {
+    this.UI.nickname = gameData.nickname;
+  }
+
+  #setTime() {
+
+  }
+
+  #createAudio() {
+    this.audio = gameResources[ 'audio' ];
+  }
+
+  #createCollectableItems() {
+
+  }
+
+  #createHills() {
+
+  }
+
+  #createEnemies() {
+
+  }
+
+  #update() {
+    this.#time.update();
+
+    /**
+     * Обновляем игрока
+     */
+    this.player.hp -= 1 * ( this.#time.dt / 1000 );
+
+    if ( this.player.hp === 0 ) {
+      return
+    }
+
+    if ( this.pressedKey.isMoving ) {
+      this.player.currentState = 'walk';
+      this.player.direction = this.pressedKey.LEFT ? -1 : this.pressedKey.RIGHT ? 1 : this.player.direction;
+
+      let oldX = this.player.coords.x;
+      this.player.coords.x += this.player.direction * this.player.speed * ( this.#time.dt / 1000 );
+
+      if ( this.player.coords.x < 0 ) this.player.coords.x = oldX;
+
+
+      if ( this.state.globalLeftOffset <= -( this.fullGameWidth - this.canvWidth ) ) {
+        this.state.globalLeftOffset = -( this.fullGameWidth - this.canvWidth );
+        this.state.side = 'right';
       }
-    else
-      switch ( e.code ) {
-        case 'KeyA':
-          state.pressedKey.LEFT = false;
-          break;
-        case 'KeyD':
-          state.pressedKey.RIGHT = false;
-          break;
+
+      if ( this.state.side === 'left' && this.player.coords.x >= ( this.canvWidth / 2 ) ) {
+        this.state.globalLeftOffset -= this.player.coords.x - oldX;
+        this.state.side = 'center';
       }
+      else if ( this.state.side === 'right' && this.player.coords.x < ( this.canvWidth / 2 ) ) {
+        this.state.globalLeftOffset += oldX - this.player.coords.x;
+        this.state.side = 'center';
+      }
+      else if ( this.state.side === 'center' && this.state.globalLeftOffset === 0 ) {
+        this.state.globalLeftOffset === 0;
+        this.state.side = 'left';
+      }
+      else if ( this.state.side === 'center' && this.state.globalLeftOffset === -( this.fullGameWidth - this.canvWidth ) ) {
+        this.state.side = 'right';
+      }
+      else if ( this.state.side === 'center' ) {
+        this.state.globalLeftOffset -= this.player.coords.x - oldX;
+        if ( this.state.globalLeftOffset > 0 )
+          this.state.globalLeftOffset = 0;
+        if ( this.state.globalLeftOffset <= -( this.fullGameWidth - this.canvWidth ) )
+          this.state.globalLeftOffset = -( this.fullGameWidth - this.canvWidth );
+
+        this.player.coords.x = oldX;
+
+        /**
+         * Обновляем фон
+         */
+        for ( let i = 0; i < this.#BG.length; i++ ) {
+          this.#BG[ i ].coords.x -= this.player.direction * this.player.speed * ( this.#time.dt / 1000 );
+        }
+        if ( this.#BG[ 0 ].coords.x < -this.canvWidth ) {
+          this.#BG[ 0 ].coords.x = 0;
+          this.#BG[ 1 ].coords.x = this.canvWidth;
+        } else if ( this.#BG[ 0 ].coords.x > 0 ) {
+          this.#BG[ 0 ].coords.x = -this.canvWidth;
+          this.#BG[ 1 ].coords.x = 0;
+        }
+      }
+    } else this.player.currentState = 'idle';
+
+    if ( this.pressedKey.UP ) {
+      // TODO: Сделать прыжок
+    }
+
+    if ( this.player.coords.x > window.game.canvWidth - this.player.width ) this.state.isEnd = true;
+
+    /**
+     * Обновляем врагов
+     */
+
+
+    /**
+     * Обновляем собираемые предметы
+     */
+
+
+    /**
+     * Обновляем возвышенности
+     */
   }
 
-  // Обновление игровых объектов
-  update( dt ) {
-    this.updateTimer( dt );
-    this.player._hp -= state.dt( dt ) / 1000;
-    this.ui.set( 'hp', this.player.hp );
-    this.ui.set( 'eatenCheese', this.eatenCheese );
-    this.player.update( dt );
+  #render() {
+    /**
+     * Рендерим UI
+     */
+    this.UI.timer = this.#time.gameTime;
+    this.UI.hp = Math.ceil( this.player.hp );
+    this.UI.eatenCheese = this.player.eatenCheese;
+    this.UI.muteStatus = ( this.state.isMuted ? 'Включить звук - SHIFT' : 'Выключить звук - SHIFT' );
 
-    ( this.player.hp <= 0 ) && ( this.gameStatus = 'gameover' );
+    /**
+     * Рендерим графику
+     */
+
+    /** Очищаем канвас */
+    this.ctx.clearRect( 0, 0, this.canvWidth, this.canvHeight );
+
+    for ( let i = 0; i < this.#BG.length; i++ ) {
+      let bgrd = this.#BG[ i ].img.getRenderData();
+      this.ctx.drawImage( bgrd.img, this.#BG[ i ].coords.x, 0, this.canvWidth, this.canvHeight );
+    }
+
+    this.player.render( this.#time.dt );
   }
 
-  // Обновление значения таймера
-  updateTimer( dt ) {
-    this.time += state.dt( dt );
+  cycle() {
+    if ( this.state.isEnd || this.state.isGameover ) return;
 
-    let fullSeconds = Math.floor( this.time / 1000 );
-    let minutes = String( Math.floor( fullSeconds / 60 ) );
-    let seconds = String( fullSeconds % 60 );
+    if ( !this.state.isPause ) {
+      this.#update();
+      this.#render();
+    }
 
-    this.ui.set( 'timer',
-      ( minutes.length === 1 ? ( '0' + minutes ) : minutes )
-      + ':' +
-      ( seconds.length === 1 ? ( '0' + seconds ) : seconds )
-    );
-  }
-
-  // Отрисовываем игровые объекты
-  render( dt ) {
-    state.ctx.drawImage( this.bg, 0, 0 );
-    this.player.render( dt );
+    requestAnimationFrame( this.cycle.bind( this ) );
   }
 
 }
