@@ -4,8 +4,8 @@
 // Скрипты игры
 //= modules/resourceClasses/EntityImage.class.js
 //= modules/resourceClasses/EntitySprite.class.js
-//= gameResources.js
-//= gameData.js
+//= modules/gameResources.js
+//= modules/gameData.js
 //= modules/Coords.class.js
 //= modules/SimpleObject.class.js
 //= modules/CollectableItem.class.js
@@ -16,4 +16,4 @@
 //= modules/UI.class.js
 //= modules/Background.class.js
 //= modules/Game.class.js
-//= eventHandler.js
+//= modules/eventHandler.js
