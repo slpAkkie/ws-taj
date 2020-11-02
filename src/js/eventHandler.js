@@ -21,6 +21,8 @@ $( '.character' ).on( 'click', chooseCharacter );
 $( '#nickname input' ).on( 'keyup', checkStartButton );
 // Клик по кнопке "Начать игру"
 $( '#js-start, #js-restart' ).on( 'click', goToGame );
+// Нажатия клавиш
+$( document ).on( 'keydown keyup', keypress );
 
 
 
@@ -85,6 +87,41 @@ function goToGame() {
   window.gameDataLog();
   window.game = new Game( window.gameData.nickname, window.gameData.character );
 }
+
+// Изменяем состояние нажатых клавиш
+function keypress( e ) {
+  // Если кнопка зажата, то выходим
+  if ( e.originalEvent.repeat || window.gameData.screen != 'game' || !window.game ) return;
+
+  // Если кнопки передвижения, то переключаем действие игрока
+  if ( e.type === 'keydown' )
+    switch ( e.code ) {
+      case 'KeyA':
+        window.game.pressedKey.LEFT = true;
+        break;
+      case 'KeyD':
+        window.game.pressedKey.RIGHT = true;
+        break;
+      case 'Escape':
+        window.game.state.isPause = !window.game.state.isPause;
+        $( '#pause-screen' ).toggleClass( 'hide' );
+        break;
+      case 'ShiftLeft':
+      case 'ShiftRight':
+        window.game.state.isMuted = !window.game.state.isMuted;
+        break;
+    }
+  else
+    switch ( e.code ) {
+      case 'KeyA':
+        window.game.pressedKey.LEFT = false;
+        break;
+      case 'KeyD':
+        window.game.pressedKey.RIGHT = false;
+        break;
+    }
+}
+
 
 
 // Вывод изменения текущего экрана
