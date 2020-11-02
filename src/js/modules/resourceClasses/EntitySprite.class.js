@@ -5,7 +5,7 @@ class EntitySprite extends EntityImage {
   #w;
   #h;
 
-  #isSprite = true;
+  isSprite = true;
   #frameCount;
   #frameWidth;
   #animationDuration;
@@ -15,15 +15,13 @@ class EntitySprite extends EntityImage {
   #currentFrameTime = 0;
   #currentFrame = 0;
 
-  #img;
-
   constructor( { path, width, height, frameCount, animationDuration } ) {
     super( { path, width, height } );
 
     if ( !frameCount || !animationDuration ) throw new Error( 'Спрайт создан не верно' );
 
     this.#frameCount = frameCount;
-    this.#frameWidth = Math.ceil( width / frameCount );
+    this.#frameWidth = width;
     this.#animationDuration = animationDuration;
     this.#frameDuration = animationDuration / frameCount;
   }
@@ -31,19 +29,16 @@ class EntitySprite extends EntityImage {
   // Получить данные для рендер
   getRenderData() {
     return Object.assign( super.getRenderData(), {
-      img: this.#img,
-      width: this.#frameWidth,
-      height: this.#h,
-      offsetX: this.#offsetX,
-      offsety: 0,
+      sx: this.#offsetX,
+      sy: 0,
+      sw: super.w,
     } );
   }
 
   // Получить всю информацию о текущем спрайте
   getFullData() {
     return Object.assign( super.getFullData(), {
-      img: this.#img,
-      isSprite: this.#isSprite,
+      isSprite: this.isSprite,
       frameCount: this.#frameCount,
       frameWidth: this.#frameWidth,
       animationDuration: this.#animationDuration,
