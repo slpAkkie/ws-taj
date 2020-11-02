@@ -1,3 +1,0 @@
-class HillResource extends EntityImage {
-
-}
