@@ -3,7 +3,7 @@
  */
 
 window.gameData = {
-  screen = 'prehistory',
-  nickname = null,
-  character = null,
+  screen: 'prehistory',
+  nickname: null,
+  character: null,
 }
