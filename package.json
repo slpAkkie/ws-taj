@@ -13,6 +13,8 @@
   "license": "MIT",
   "devDependencies": {
     "@babel/core": "^7.12.3",
+    "@babel/plugin-proposal-private-methods": "^7.12.1",
+    "@babel/plugin-syntax-class-properties": "^7.12.1",
     "@babel/preset-env": "^7.12.1",
     "browser-sync": "^2.26.12",
     "del": "^5.1.0",
