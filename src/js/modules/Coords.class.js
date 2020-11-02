@@ -13,7 +13,7 @@ class Coords {
     return this.#x;
   }
   set x( v ) {
-    this.#x = this.#checkX( window.game.state.globalLeftOffset + v );
+    this.#x = v;
   }
 
   get y() {
@@ -21,11 +21,6 @@ class Coords {
   }
   set y( v ) {
     this.#y = v;
-  }
-
-  #checkX( x ) {
-    if ( x < window.game.globalCoords.x ) throw new Error( 'Координата x не должна быть меньше глобальной левой коордлинате' );
-    return x;
   }
 
 }
