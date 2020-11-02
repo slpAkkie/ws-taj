@@ -11,7 +11,7 @@ class Player extends Entity {
   }
 
   get width() {
-    return this.state[ this.currentState ].width;
+    return this.state[ this.currentState ].w;
   }
 
 }
