@@ -1,9 +1,2 @@
-/**
- * Глобальный объект для хранения данных игры
- */
-
-window.gameData = {
-  screen: 'prehistory',
-  nickname: null,
-  character: null,
-}
+"use strict";window.gameData={screen:"prehistory",nickname:null,character:null};
+//# sourceMappingURL=data:application/json;charset=utf8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbImdhbWVEYXRhLmpzIl0sIm5hbWVzIjpbIndpbmRvdyIsImdhbWVEYXRhIiwic2NyZWVuIiwibmlja25hbWUiXSwibWFwcGluZ3MiOiJhQUVBQSxPQUFBQyxTQUFBLENBRUFELE9BQU9DLGFBQ0xDLFNBQVEsS0FDUkMsVUFBVSIsImZpbGUiOiJnYW1lRGF0YS5qcyIsInNvdXJjZXNDb250ZW50IjpbIi8qKlxyXG4gKiDQk9C70L7QsdCw0LvRjNC90YvQuSDQvtCx0YrQtdC60YIg0LTQu9GPINGF0YDQsNC90LXQvdC40Y8g0LTQsNC90L3Ri9GFINC40LPRgNGLXHJcbiAqL1xyXG5cclxud2luZG93LmdhbWVEYXRhID0ge1xyXG4gIHNjcmVlbjogJ3ByZWhpc3RvcnknLFxyXG4gIG5pY2tuYW1lOiBudWxsLFxyXG4gIGNoYXJhY3RlcjogbnVsbCxcclxufSJdfQ==
