@@ -7,6 +7,7 @@ window.gameResources = {
     'path': '..\\img\\sprites\\jerry-idle.png',
     'width': 28,
     'height': 42,
+    'scale': 1.75,
   } ),
   'jerry:walk': new EntitySprite( {
     'path': '..\\img\\sprites\\jerry-walk.png',
@@ -14,18 +15,21 @@ window.gameResources = {
     'width': 28,
     'height': 42,
     'animationDuration': 1000,
+    'scale': 1.75,
   } ),
   'tuffy:idle': new EntityImage( {
     'path': '..\\img\\sprites\\tuffy-idle.png',
-    'width': 28,
+    'width': 25,
     'height': 27,
+    'scale': 2.5,
   } ),
   'tuffy:walk': new EntitySprite( {
     'path': '..\\img\\sprites\\tuffy-walk.png',
     'frameCount': 3,
-    'width': 28,
+    'width': 25,
     'height': 27,
     'animationDuration': 300,
+    'scale': 2.5,
   } ),
   'tom:walk': new EntitySprite( {
     'path': '..\\img\\sprites\\tom-walk.png',
@@ -36,8 +40,8 @@ window.gameResources = {
   } ),
   'hill': new EntityImage( {
     'path': '..\\img\\Chair.png',
-    'width': 200,
-    'height': 200,
+    'width': 400,
+    'height': 400,
   } ),
   'cheese': new EntityImage( {
     'path': '..\\img\\Cheese.png',

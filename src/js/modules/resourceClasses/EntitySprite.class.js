@@ -15,8 +15,8 @@ class EntitySprite extends EntityImage {
   #currentFrameTime = 0;
   #currentFrame = 0;
 
-  constructor( { path, width, height, frameCount, animationDuration } ) {
-    super( { path, width, height } );
+  constructor( { path, width, height, frameCount, animationDuration, scale } ) {
+    super( { path, width, height, scale } );
 
     if ( !frameCount || !animationDuration ) throw new Error( 'Спрайт создан не верно' );
 

@@ -6,4 +6,5 @@ window.gameData = {
   screen: 'prehistory',
   nickname: null,
   character: null,
+  baseLine: 700,
 }

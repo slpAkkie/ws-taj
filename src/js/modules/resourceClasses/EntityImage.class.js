@@ -4,15 +4,17 @@ class EntityImage {
   #path;
   #w;
   #h;
+  scale;
 
   #img;
 
-  constructor( { path, width, height } ) {
+  constructor( { path, width, height, scale } ) {
     if ( !path || !width || !height ) throw new Error( 'Картинка создана не верно' );
 
     this.#path = path;
     this.#w = width;
     this.#h = height;
+    this.scale = scale || null;
     this.load();
   }
 
@@ -35,6 +37,7 @@ class EntityImage {
       sh: this.height,
       dw: this.#w,
       dh: this.#h,
+      scale: this.scale,
     };
   }
 
@@ -47,6 +50,7 @@ class EntityImage {
       sh: this.#img.height,
       dw: this.#w,
       dh: this.#h,
+      scale: this.scale,
     };
   }
 

@@ -3,8 +3,10 @@ class Game {
   #BG = [];
   #canvas;
   ctx;
-  #baseLine = 700;
   fullGameWidth;
+  collectableItem = [];
+  hills = [];
+  enemies = [];
 
   #time = {
     start: performance.now(),
@@ -66,12 +68,12 @@ class Game {
     this.#BG[ 1 ] = new Background( this.canvWidth );
     this.#createAudio();
 
-    this.player = new Player( 0, this.#baseLine );
+    this.player = new Player( 0, window.gameData.baseLine );
     this.player.setSprite( gameData.character, 'idle' );
     this.player.setSprite( gameData.character, 'walk' );
 
-    this.#createCollectableItems();
     this.#createHills();
+    this.#createCollectableItems();
     this.#createEnemies();
 
     this.#setTime();
@@ -117,15 +119,21 @@ class Game {
   }
 
   #createCollectableItems() {
-
+    for ( let i = 0; i < 5; i++ )
+      this.collectableItem[ i ] = new CollectableItem( 'cheese', this.#randX( this.canvWidth * i + 200, this.canvWidth * ( i + 1 ) - 200 ) );
   }
 
   #createHills() {
-
+    for ( let i = 0; i < 5; i++ )
+      this.hills[ i ] = new Hill( 'hill', this.#randX( this.canvWidth * i + 200, this.canvWidth * ( i + 1 ) - 200 ) );
   }
 
   #createEnemies() {
 
+  }
+
+  #randX( l, h ) {
+    return Math.floor( Math.random() * ( h - l + 1 ) ) + l;
   }
 
   #update() {
@@ -137,7 +145,8 @@ class Game {
     this.player.hp -= 1 * ( this.#time.dt / 1000 );
 
     if ( this.player.hp === 0 ) {
-      return
+      this.state.isGameover = true;
+      return;
     }
 
     if ( this.pressedKey.isMoving ) {
@@ -238,10 +247,20 @@ class Game {
     }
 
     this.player.render( this.#time.dt );
+
+    for ( let i = 0; i < 5; i++ ) this.collectableItem[ i ].render();
+    for ( let i = 0; i < 5; i++ ) this.hills[ i ].render();
+  }
+
+  showResults() {
+    $( '#score-screen' ).removeClass( 'hide' );
   }
 
   cycle() {
-    if ( this.state.isEnd || this.state.isGameover ) return;
+    if ( this.state.isEnd || this.state.isGameover ) {
+      this.showResults();
+      return;
+    }
 
     if ( !this.state.isPause ) {
       this.#update();

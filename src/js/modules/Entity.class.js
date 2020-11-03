@@ -22,7 +22,18 @@ class Entity {
     window.game.ctx.save();
     window.game.ctx.scale( this.direction, 1 );
     this.direction === -1 && ( this.coords.x = -this.coords.x - this.state[ this.currentState ].w );
-    window.game.ctx.drawImage( rd.img, rd.sx || 0, rd.sy || 0, rd.sw, rd.sh, this.coords.x, this.coords.y, rd.dw, rd.dh );
+
+    window.game.ctx.drawImage(
+      rd.img, rd.sx || 0,
+      rd.sy || 0,
+      rd.sw,
+      rd.sh,
+      this.coords.x,
+      this.coords.y,
+      rd.dw * ( rd.scale || 1 ),
+      rd.dh * ( rd.scale || 1 )
+    );
+
     this.direction === -1 && ( this.coords.x = -this.coords.x - this.state[ this.currentState ].w );
     window.game.ctx.restore();
 
