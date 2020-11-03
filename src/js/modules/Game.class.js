@@ -136,6 +136,10 @@ class Game {
     return Math.floor( Math.random() * ( h - l + 1 ) ) + l;
   }
 
+  #jumpK( k ) {
+    return k / 80;
+  }
+
   #update() {
     this.#time.update();
 
@@ -205,8 +209,30 @@ class Game {
     } else this.player.currentState = 'idle';
 
     if ( this.pressedKey.UP ) {
-      // TODO: Сделать прыжок
+      if ( !this.player.jumpState.isJump ) {
+        this.player.jumpState.isJump = true;
+        this.player.jumpState.jump = true;
+      }
     }
+
+    if ( this.player.jumpState.isJump && this.player.jumpState.jump ) {
+      if ( this.player.coords.y <= 100 ) {
+        this.player.jumpState.jump = false;
+        this.player.jumpState.fall = true;
+      } else {
+        this.player.coords.y -= this.player.jumpSpeed * ( this.#time.dt / 1000 ) * this.#jumpK( this.player.coords.y );
+      }
+    } else if ( this.player.jumpState.isJump && this.player.jumpState.fall ) {
+      if ( this.player.coords.y >= window.gameData.baseLine ) {
+        this.player.jumpState.jump = false;
+        this.player.jumpState.fall = false;
+        this.player.jumpState.isJump = false;
+        this.player.coords.y = window.gameData.baseLine;
+      } else {
+        this.player.coords.y += this.player.jumpSpeed * ( this.#time.dt / 1000 ) * this.#jumpK( this.player.coords.y );
+      }
+    }
+
 
     if ( this.player.coords.x > window.game.canvWidth - this.player.width ) this.state.isEnd = true;
 
@@ -246,10 +272,10 @@ class Game {
       this.ctx.drawImage( bgrd.img, this.#BG[ i ].coords.x, 0, this.canvWidth, this.canvHeight );
     }
 
-    this.player.render( this.#time.dt );
-
-    for ( let i = 0; i < 5; i++ ) this.collectableItem[ i ].render();
     for ( let i = 0; i < 5; i++ ) this.hills[ i ].render();
+    for ( let i = 0; i < 5; i++ ) this.collectableItem[ i ].render();
+
+    this.player.render( this.#time.dt );
   }
 
   showResults() {

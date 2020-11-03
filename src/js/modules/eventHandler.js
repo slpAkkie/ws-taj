@@ -102,6 +102,10 @@ function keypress( e ) {
       case 'KeyD':
         window.game.pressedKey.RIGHT = true;
         break;
+      case 'Space':
+      case 'KeyW':
+        window.game.pressedKey.UP = true;
+        break;
       case 'Escape':
         window.game.state.isPause = !window.game.state.isPause;
         $( '#pause-screen' ).toggleClass( 'hide' );
@@ -118,6 +122,10 @@ function keypress( e ) {
         break;
       case 'KeyD':
         window.game.pressedKey.RIGHT = false;
+        break;
+      case 'Space':
+      case 'KeyW':
+        window.game.pressedKey.UP = false;
         break;
     }
 }
