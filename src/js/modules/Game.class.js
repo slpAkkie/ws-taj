@@ -218,11 +218,24 @@ class Game {
     /**
      * Обновляем собираемые предметы
      */
+    for ( let i = 0; i < this.collectableItem.length; i++ ) {
+      if ( this.player.checkCollision( this.collectableItem[ i ] ) ) {
+        this.#deleteItem( this.collectableItem, i );
+        this.player.hp += 20;
+        break;
+      }
+    }
 
 
     /**
      * Обновляем возвышенности
      */
+  }
+
+  #deleteItem( where, ind ) {
+    for ( let i = ind; i < where.length - 1; i++ )
+      where[ i ] = where[ i + 1 ];
+    where.length--;
   }
 
   #render() {

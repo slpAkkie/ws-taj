@@ -14,4 +14,9 @@ class Player extends Entity {
     return this.state[ this.currentState ].w;
   }
 
+  checkCollision( entity ) {
+    return entity.coords.x < this.coords.x
+      && entity.coords.y < this.coords.y;
+  }
+
 }
