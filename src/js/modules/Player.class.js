@@ -7,6 +7,13 @@ class Player extends Entity {
   direction = 1;
   currentState = 'idle';
   jumpState = { isJump: false, fall: false, jump: false };
+  upperJumpPoint = 100;
+  baseLine;
+
+  constructor( ...param ) {
+    super( ...param );
+    this.baseLine = window.gameData.baseLine;
+  }
 
   set hp( v ) {
     this.#hp = ( v > 100 ? 100 : v < 0 ? 0 : v );
@@ -14,6 +21,11 @@ class Player extends Entity {
 
   get hp() {
     return this.#hp;
+  }
+
+  isAboutHill( entity ) {
+    return ( entity.coords.x + window.game.state.globalLeftOffset ) <= ( this.coords.x + this.width )
+      && ( ( entity.coords.x + window.game.state.globalLeftOffset ) + entity.width ) >= this.coords.x;
   }
 
   checkCollision( entity ) {

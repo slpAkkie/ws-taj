@@ -216,20 +216,40 @@ class Game {
     }
 
     if ( this.player.jumpState.isJump && this.player.jumpState.jump ) {
-      if ( this.player.coords.y <= 100 ) {
+      if ( this.player.coords.y <= this.player.upperJumpPoint ) {
         this.player.jumpState.jump = false;
         this.player.jumpState.fall = true;
       } else {
         this.player.coords.y -= this.player.jumpSpeed * ( this.#time.dt / 1000 ) * this.#jumpK( this.player.coords.y );
       }
     } else if ( this.player.jumpState.isJump && this.player.jumpState.fall ) {
-      if ( this.player.coords.y >= window.gameData.baseLine ) {
+      if ( this.player.coords.y >= this.player.baseLine ) {
         this.player.jumpState.jump = false;
         this.player.jumpState.fall = false;
         this.player.jumpState.isJump = false;
-        this.player.coords.y = window.gameData.baseLine;
+        this.player.coords.y = this.player.baseLine;
       } else {
         this.player.coords.y += this.player.jumpSpeed * ( this.#time.dt / 1000 ) * this.#jumpK( this.player.coords.y );
+      }
+    }
+
+    for ( let i = 0; i < this.hills.length; i++ ) {
+      if ( this.player.isAboutHill( this.hills[ i ] ) ) {
+        if ( this.hills[ i ].surfaceY >= this.player.coords.y ) {
+          this.player.baseLine = this.hills[ i ].surfaceY;
+          this.player.upperJumpPoint = 100;
+        }
+        else {
+          this.player.upperJumpPoint = this.hills[ i ].surfaceY + 50;
+        }
+        break;
+      } else {
+        if ( this.player.baseLine !== window.gameData.baseLine ) {
+          this.player.jumpState.isJump = true;
+          this.player.jumpState.fall = true;
+          this.player.baseLine = window.gameData.baseLine;
+        }
+        this.player.upperJumpPoint = 100;
       }
     }
 
