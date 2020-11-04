@@ -248,6 +248,7 @@ class Game {
       if ( this.player.checkCollision( this.collectableItem[ i ] ) ) {
         this.#deleteItem( this.collectableItem, i );
         this.player.hp += 20;
+        this.player.eatenCheese++;
         break;
       }
     }
@@ -285,8 +286,8 @@ class Game {
       this.ctx.drawImage( bgrd.img, this.#BG[ i ].coords.x, 0, this.canvWidth, this.canvHeight );
     }
 
-    for ( let i = 0; i < 5; i++ ) this.hills[ i ].render();
-    for ( let i = 0; i < 5; i++ ) this.collectableItem[ i ].render();
+    for ( let i = 0; i < this.hills.length; i++ ) this.hills[ i ].render();
+    for ( let i = 0; i < this.collectableItem.length; i++ ) this.collectableItem[ i ].render();
 
     this.player.render( this.#time.dt );
   }

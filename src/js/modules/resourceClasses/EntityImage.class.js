@@ -28,6 +28,9 @@ class EntityImage {
   get w() {
     return this.#w;
   }
+  get h() {
+    return this.#h;
+  }
 
   // Получить картинку
   getRenderData() {

@@ -16,13 +16,11 @@ class Player extends Entity {
     return this.#hp;
   }
 
-  get width() {
-    return this.state[ this.currentState ].w;
-  }
-
   checkCollision( entity ) {
-    return entity.coords.x < this.coords.x
-      && entity.coords.y < this.coords.y;
+    return ( entity.coords.x + window.game.state.globalLeftOffset ) <= ( this.coords.x + this.width )
+      && ( ( entity.coords.x + window.game.state.globalLeftOffset ) + entity.width ) >= this.coords.x
+      && entity.coords.y <= ( this.coords.y + this.height )
+      && ( entity.coords.y + entity.height ) >= this.coords.y;
   }
 
 }

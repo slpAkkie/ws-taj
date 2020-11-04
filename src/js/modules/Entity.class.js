@@ -10,6 +10,13 @@ class Entity {
     this.coords = new Coords( x, y );
   }
 
+  get width() {
+    return this.state[ this.currentState ].w;
+  }
+  get height() {
+    return this.state[ this.currentState ].h;
+  }
+
   setSprite( entityKey, entityState ) {
     this.state[ entityState ] = gameResources[ `${entityKey}:${entityState}` ];
   }
