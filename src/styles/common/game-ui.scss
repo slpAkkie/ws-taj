@@ -1,11 +1,12 @@
 #UI {
-  margin: 25px 75px;
-
   font-size: 1.5rem;
 
   #UI-left, #UI-right {
     top: 0;
     position: absolute;
+    background: rgba(255, 255, 255, .75);
+    padding: 10px 50px;
+    border-radius: .25rem;
 
   }
   & > * > * {
