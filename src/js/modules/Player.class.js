@@ -9,6 +9,8 @@ class Player extends Entity {
   jumpState = { isJump: false, fall: false, jump: false };
   upperJumpPoint = 100;
   baseLine;
+  isOnHill = false;
+  isUnderHill = false;
 
   constructor( ...param ) {
     super( ...param );

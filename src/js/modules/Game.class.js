@@ -237,23 +237,32 @@ class Game {
     /**
      * Обновляем возвышенности
      */
+    this.player.isOnHill = false;
+    this.player.isUnderHill = false;
     for ( let i = 0; i < this.hills.length; i++ ) {
       if ( this.player.isAboutHill( this.hills[ i ] ) ) {
-        if ( this.hills[ i ].surfaceY + 40 >= this.player.coords.y ) {
+        if ( ( this.hills[ i ].surfaceY + 40 ) >= this.player.coords.y ) {
           this.player.baseLine = this.hills[ i ].surfaceY;
           this.player.upperJumpPoint = 100;
+          this.player.isOnHill = true;
         }
         else {
           this.player.upperJumpPoint = this.hills[ i ].surfaceY + 50;
+          this.player.isUnderHill = true;
         }
         break;
-      } else {
-        if ( this.player.baseLine !== window.gameData.baseLine ) {
-          this.player.jumpState.isJump = true;
-          this.player.jumpState.fall = true;
-          this.player.baseLine = window.gameData.baseLine;
-        }
-        this.player.upperJumpPoint = 100;
+      }
+    }
+
+    if ( !this.player.isUnderHill ) {
+      this.player.upperJumpPoint = 100;
+    }
+
+    if ( !this.player.isOnHill ) {
+      if ( this.player.baseLine !== window.gameData.baseLine ) {
+        this.player.baseLine = window.gameData.baseLine;
+        this.player.jumpState.isJump = true;
+        this.player.jumpState.fall = true;
       }
     }
 
