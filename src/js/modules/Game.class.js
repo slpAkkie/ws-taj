@@ -233,9 +233,13 @@ class Game {
       }
     }
 
+
+    /**
+     * Обновляем возвышенности
+     */
     for ( let i = 0; i < this.hills.length; i++ ) {
       if ( this.player.isAboutHill( this.hills[ i ] ) ) {
-        if ( this.hills[ i ].surfaceY >= this.player.coords.y ) {
+        if ( this.hills[ i ].surfaceY + 40 >= this.player.coords.y ) {
           this.player.baseLine = this.hills[ i ].surfaceY;
           this.player.upperJumpPoint = 100;
         }
@@ -272,11 +276,6 @@ class Game {
         break;
       }
     }
-
-
-    /**
-     * Обновляем возвышенности
-     */
   }
 
   #deleteItem( where, ind ) {
