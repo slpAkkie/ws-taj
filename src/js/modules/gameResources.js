@@ -40,8 +40,8 @@ window.gameResources = {
   } ),
   'hill': new EntityImage( {
     'path': '..\\img\\Chair.png',
-    'width': 400,
-    'height': 400,
+    'width': 180,
+    'height': 350,
   } ),
   'cheese': new EntityImage( {
     'path': '..\\img\\Cheese.png',
