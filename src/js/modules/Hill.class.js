@@ -2,7 +2,7 @@
 class Hill extends SimpleObject {
 
   get surfaceY() {
-    return this.coords.y + this.img.h - 280;
+    return this.coords.y + this.img.h - 250;
   }
 
 }

@@ -190,8 +190,8 @@ window.gameResources = {
   } ),
   'hill': new EntityImage( {
     'path': '..\\img\\Chair.png',
-    'width': 400,
-    'height': 400,
+    'width': 180,
+    'height': 350,
   } ),
   'cheese': new EntityImage( {
     'path': '..\\img\\Cheese.png',
@@ -288,7 +288,7 @@ class CollectableItem extends SimpleObject {
 class Hill extends SimpleObject {
 
   get surfaceY() {
-    return this.coords.y + this.img.h - 280;
+    return this.coords.y + this.img.h - 250;
   }
 
 }
@@ -723,7 +723,7 @@ class Game {
           this.player.isOnHill = true;
         }
         else {
-          this.player.upperJumpPoint = this.hills[ i ].surfaceY + 50;
+          this.player.upperJumpPoint = this.hills[ i ].surfaceY + 80;
           this.player.isUnderHill = true;
         }
         break;

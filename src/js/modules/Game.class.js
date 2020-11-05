@@ -247,7 +247,7 @@ class Game {
           this.player.isOnHill = true;
         }
         else {
-          this.player.upperJumpPoint = this.hills[ i ].surfaceY + 50;
+          this.player.upperJumpPoint = this.hills[ i ].surfaceY + 80;
           this.player.isUnderHill = true;
         }
         break;
