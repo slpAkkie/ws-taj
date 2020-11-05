@@ -102,6 +102,9 @@ function keypress( e ) {
       case 'KeyD':
         window.game.pressedKey.RIGHT = true;
         break;
+      case 'KeyS':
+        window.game.pressedKey.DOWN = true;
+        break;
       case 'Space':
       case 'KeyW':
         window.game.pressedKey.UP = true;
@@ -122,6 +125,9 @@ function keypress( e ) {
         break;
       case 'KeyD':
         window.game.pressedKey.RIGHT = false;
+        break;
+      case 'KeyS':
+        window.game.pressedKey.DOWN = false;
         break;
       case 'Space':
       case 'KeyW':

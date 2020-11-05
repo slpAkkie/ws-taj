@@ -254,6 +254,11 @@ class Game {
       }
     }
 
+    if ( this.pressedKey.DOWN ) {
+      this.player.isOnHill = false;
+      this.player.isUnderHill = true;
+    }
+
     if ( !this.player.isUnderHill ) {
       this.player.upperJumpPoint = 100;
     }
