@@ -302,6 +302,22 @@ class Game {
         break;
       }
     }
+
+    let isEntityCollision = false;
+    for ( let i = 0; i < this.enemies.length; i++ ) {
+      if ( this.player.checkCollisionWithEnemy( this.enemies[ i ] ) ) {
+        if ( ( this.player.entityCollisionWith !== this.enemies[ i ] ) ) {
+          this.player.entityCollisionWith = this.enemies[ i ];
+          this.player.hp -= this.player.entityCollisionWith.damage;
+        }
+        isEntityCollision = true;
+        break;
+      }
+    }
+
+    if ( !isEntityCollision ) {
+      this.player.entityCollisionWith = null;
+    }
   }
 
   #deleteItem( where, ind ) {
