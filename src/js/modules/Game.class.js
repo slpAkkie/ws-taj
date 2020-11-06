@@ -129,7 +129,10 @@ class Game {
   }
 
   #createEnemies() {
-
+    for ( let i = 0; i < 7; i++ ) {
+      this.enemies[ i ] = new Enemy( this.canvWidth * ( i + 1 ) / 1.5, window.gameData.baseLine );
+      this.enemies[ i ].setSprite( 'tom', 'walk' );
+    }
   }
 
   #randX( l, h ) {
@@ -153,11 +156,11 @@ class Game {
       return;
     }
 
+    let oldX = this.player.coords.x;
     if ( this.pressedKey.isMoving ) {
       this.player.currentState = 'walk';
       this.player.direction = this.pressedKey.LEFT ? -1 : this.pressedKey.RIGHT ? 1 : this.player.direction;
 
-      let oldX = this.player.coords.x;
       this.player.coords.x += this.player.direction * this.player.speed * ( this.#time.dt / 1000 );
 
       if ( this.player.coords.x < 0 ) this.player.coords.x = oldX;
@@ -271,12 +274,21 @@ class Game {
       }
     }
 
-
     if ( this.player.coords.x > window.game.canvWidth - this.player.width ) this.state.isEnd = true;
+
 
     /**
      * Обновляем врагов
      */
+    for ( let i = 0; i < this.enemies.length; i++ ) {
+      this.enemies[ i ].coords.x += this.enemies[ i ].direction * this.enemies[ i ].speed * ( this.#time.dt / 1000 );
+      if ( ( this.state.side === 'center' ) && this.pressedKey.isMoving && ( this.player.direction === 1 ) ) {
+        this.enemies[ i ].coords.x += this.enemies[ i ].direction * this.player.speed * ( this.#time.dt / 1000 );
+      }
+      if ( this.enemies[ i ].coords.x + this.enemies[ i ].width < this.state.globalLeftOffset ) {
+        this.enemies[ i ].coords.x = this.fullGameWidth;
+      }
+    }
 
 
     /**
@@ -321,6 +333,7 @@ class Game {
 
     for ( let i = 0; i < this.hills.length; i++ ) this.hills[ i ].render();
     for ( let i = 0; i < this.collectableItem.length; i++ ) this.collectableItem[ i ].render();
+    for ( let i = 0; i < this.enemies.length; i++ ) this.enemies[ i ].render( this.#time.dt );
 
     this.player.render( this.#time.dt );
   }

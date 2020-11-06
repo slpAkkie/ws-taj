@@ -36,7 +36,8 @@ window.gameResources = {
     'frameCount': 15,
     'width': 32,
     'height': 45,
-    'animationDuration': 1900,
+    'animationDuration': 6500,
+    'scale': 2.8,
   } ),
   'hill': new EntityImage( {
     'path': '..\\img\\Chair.png',

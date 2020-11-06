@@ -1,7 +1,8 @@
 class Enemy extends Entity {
 
-  speed = 100;
+  speed = 250;
   direction = -1;
   currentState = 'walk';
+  damage = 20;
 
 }
