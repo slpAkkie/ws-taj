@@ -1,7 +1,7 @@
 {
   "name": "game-canvas-tom-and-jerry",
-  "version": "0.0.1",
-  "description": "Game Tom and Jerry",
+  "version": "1.0.0",
+  "description": "",
   "main": "gulpfile.js",
   "scripts": {
     "cleanDev": "gulp cleanDev",
